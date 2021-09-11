@@ -6,10 +6,8 @@ module.exports = {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        green: {
-          light: '#55826E',
-          DEFAULT: '#416a59',
-          dark: '#009eeb',
+        lightBlue: {
+          DEFAULT: '#61DAFB',
         },
       },
     },
