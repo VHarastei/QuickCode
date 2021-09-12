@@ -29,13 +29,13 @@ export const SectionCard: React.FC<PropsType> = ({
         <h3 className="ml-4 text-4xl font-semibold">{name}</h3>
       </div>
       <p className="text-lg my-1 text-gray-500">{decription}</p>
-      <div className="flex gap-4 mt-3">
-        <Link to={`/lessons/${route}/random`}>
-          <Button className="flex-shrink-0">Pick Random lesson</Button>
+      <div className="flex gap-4 mt-3 w-full">
+        <Link className="flex-shrink-0" to={`/lessons/${route}/random`}>
+          <Button>Pick Random lesson</Button>
         </Link>
-        <Link to={`/lessons/${route}`}>
+        <Link className="w-full" to={`/lessons/${route}`}>
           <Button variant="secondary" fullWidth>
-            {`Explore ${numberOfLessons} examples`}
+            {`Explore ${numberOfLessons} lessons`}
           </Button>
         </Link>
       </div>

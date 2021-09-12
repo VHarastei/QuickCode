@@ -13,7 +13,13 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['group-focus-within'],
+      opacity: ['group-focus-within'],
+      visibility: ['group-focus-within'],
+      display: ['group-focus-within'],
+      height: ['group-focus-within'],
+    },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-interaction-variants')],
 };

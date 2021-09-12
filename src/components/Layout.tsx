@@ -7,7 +7,7 @@ import linkedinIcon from 'assets/linkedin.svg';
 export const Layout: React.FC = ({ children }) => {
   return (
     <div className="h-full min-h-screen bg-gray-200 leading-normal tracking-normal flex flex-col">
-      <nav className="fixed w-full z-30 top-0 py-4 bg-white shadow-sm">
+      <nav className="fixed w-full z-10 top-0 py-4 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between px-4">
             <Link to="/">
@@ -29,7 +29,7 @@ export const Layout: React.FC = ({ children }) => {
           </div>
         </div>
       </nav>
-      <div className="max-w-7xl mx-auto pt-24 px-4 mb-auto">{children}</div>
+      <div className="max-w-7xl mx-auto pt-24 px-4 mb-auto w-full">{children}</div>
       <footer className="py-4 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between px-4">
           <h5 className="text-gray-500 font-medium text-lg">

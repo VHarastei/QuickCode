@@ -6,10 +6,7 @@ type PropsType = {
 
 export const Paper: React.FC<PropsType> = ({ children, className }) => {
   return (
-    <div
-      className={`w-full p-4 rounded-md shadow-sm bg-white
-       ${className}`}
-    >
+    <div className={`w-full p-4 rounded-md shadow-sm bg-white ${className ? className : ''}`}>
       {children}
     </div>
   );
