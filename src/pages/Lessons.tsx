@@ -13,6 +13,7 @@ export const Lessons = () => {
           <LessonCard
             name="Two Sum"
             id="1"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="easy"
@@ -21,7 +22,8 @@ export const Lessons = () => {
           />
           <LessonCard
             name="Member Visibility"
-            id="1"
+            id="2"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="medium"
@@ -30,7 +32,8 @@ export const Lessons = () => {
           />
           <LessonCard
             name="Class Expressions"
-            id="1"
+            id="3"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="hard"
@@ -41,7 +44,8 @@ export const Lessons = () => {
         <div className="flex gap-4 mb-4">
           <LessonCard
             name="Two Sum"
-            id="1"
+            id="4"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="easy"
@@ -50,7 +54,8 @@ export const Lessons = () => {
           />
           <LessonCard
             name="Member Visibility"
-            id="1"
+            id="5"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="medium"
@@ -59,7 +64,8 @@ export const Lessons = () => {
           />
           <LessonCard
             name="Class Expressions"
-            id="1"
+            id="6"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="hard"
@@ -70,7 +76,8 @@ export const Lessons = () => {
         <div className="flex gap-4 mb-4">
           <LessonCard
             name="Two Sum"
-            id="1"
+            id="7"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="easy"
@@ -79,7 +86,8 @@ export const Lessons = () => {
           />
           <LessonCard
             name="Member Visibility"
-            id="1"
+            id="8"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="medium"
@@ -88,36 +96,8 @@ export const Lessons = () => {
           />
           <LessonCard
             name="Class Expressions"
-            id="1"
-            source="https://www.typescriptlang.org/"
-            sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
-            difficulty="hard"
-            accuracy={0}
-            lines={124}
-          />
-        </div>
-        <div className="flex gap-4 mb-4">
-          <LessonCard
-            name="Two Sum"
-            id="1"
-            source="https://www.typescriptlang.org/"
-            sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
-            difficulty="easy"
-            accuracy={43.21}
-            lines={351}
-          />
-          <LessonCard
-            name="Member Visibility"
-            id="1"
-            source="https://www.typescriptlang.org/"
-            sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
-            difficulty="medium"
-            accuracy={13.56}
-            lines={186}
-          />
-          <LessonCard
-            name="Class Expressions"
-            id="1"
+            id="9"
+            section="typescript"
             source="https://www.typescriptlang.org/"
             sourceCode="https://www.typescriptlang.org/docs/handbook/2/classes.html#protected"
             difficulty="hard"

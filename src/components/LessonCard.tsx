@@ -5,11 +5,13 @@ import { Badge } from './Badge';
 import { Button } from './Button';
 import { Paper } from './Paper';
 import { PercentageBadge } from './PercentageBadge';
+import closeIcon from 'assets/close.svg';
 
 //Modal.defaultStyles.overlay.backgroundColor = 'red';
 type PropsType = {
   name: string;
   id: string;
+  section: string;
   source: string;
   sourceCode: string;
   difficulty: 'easy' | 'medium' | 'hard';
@@ -20,6 +22,7 @@ type PropsType = {
 export const LessonCard: React.FC<PropsType> = ({
   name,
   id,
+  section,
   source,
   sourceCode,
   difficulty,
@@ -50,7 +53,7 @@ export const LessonCard: React.FC<PropsType> = ({
         <span className="text-base font-semibold">{`${lines} lines`}</span>
       </div>
       <div className="flex gap-4 w-full">
-        <Link className="w-full" to={`/lessons/random`}>
+        <Link className="w-full" to={`/lessons/${section}/${id}`}>
           <Button fullWidth>Start</Button>
         </Link>
         <div className="w-full group">
@@ -58,13 +61,45 @@ export const LessonCard: React.FC<PropsType> = ({
             Overview
           </Button>
           <Modal
+            closeTimeoutMS={150}
             isOpen={isOpenModal}
             onRequestClose={() => setIsOpenModal(false)}
             style={customStyles}
             contentLabel="Example Modal"
           >
-            <button onClick={() => setIsOpenModal(false)}>close</button>
-            <div>I am a modal</div>
+            <div className="flex justify-between">
+              <h3 className="text-3xl font-semibold">{name}</h3>
+              <button onClick={() => setIsOpenModal(false)}>
+                <img
+                  className="opacity-50 hover:opacity-100"
+                  width={32}
+                  height={32}
+                  src={closeIcon}
+                  alt="lang icon"
+                />
+              </button>
+            </div>
+            <pre className="my-4 max-h-96 overflow-y-scroll">{`class Greeter {
+  public greet() {
+    console.log("Hello, " + this.getName());
+  }
+  protected getName() {
+    return "hi";
+  }
+}
+ 
+class SpecialGreeter extends Greeter {
+  public howdy() {
+    // OK to access protected member here
+    console.log("Howdy, " + this.getName());
+  }
+}
+const g = new SpecialGreeter();
+g.greet(); // OK
+g.getName();`}</pre>
+            <Link className="w-full" to={`/lessons/${section}/${id}`}>
+              <Button fullWidth>Start</Button>
+            </Link>
           </Modal>
         </div>
       </div>
@@ -74,10 +109,12 @@ export const LessonCard: React.FC<PropsType> = ({
 
 const customStyles = {
   overlay: {
-    //zIndex: 101,
+    zIndex: 101,
     backgroundColor: '#00000055',
   },
   content: {
+    maxWidth: '768px',
+    width: '100%',
     top: '50%',
     left: '50%',
     right: 'auto',
