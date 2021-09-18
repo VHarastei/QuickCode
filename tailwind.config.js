@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
@@ -21,5 +23,18 @@ module.exports = {
       height: ['group-focus-within'],
     },
   },
-  plugins: [require('tailwindcss-interaction-variants')],
+  plugins: [
+    require('tailwindcss-interaction-variants'),
+    require('tailwindcss-pseudo-elements'),
+    plugin(({ addUtilities }) => {
+      const newUtilities = {
+        '.enter': {
+          content: "'\u23CE'",
+        },
+      };
+      addUtilities(newUtilities, {
+        variants: ['before', 'after'],
+      });
+    }),
+  ],
 };

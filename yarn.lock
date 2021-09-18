@@ -10868,6 +10868,11 @@ tailwindcss-interaction-variants@^5.0.0:
     lodash "^4.17.19"
     postcss-selector-parser "^6.0.2"
 
+tailwindcss-pseudo-elements@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-pseudo-elements/-/tailwindcss-pseudo-elements-2.0.0.tgz#778a29b9aafeef89fe2e22efe047ae56822627a3"
+  integrity sha512-cbnF8Rg1tJjsgrUK1sLt/TNAea9zKNhWGTI5NtKxZ8WhYjHCMAGOjaHg+iql8UlXaW1U9jPeyJsGlQsLGrbomQ==
+
 "tailwindcss@npm:@tailwindcss/postcss7-compat":
   version "2.2.10"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.2.10.tgz#a84da77fb45e80b638419d25963814724129880d"
