@@ -1,13 +1,12 @@
+import closeIcon from 'assets/close.svg';
 import React, { useState } from 'react';
-import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import { Badge } from './Badge';
 import { Button } from './Button';
+import { CustomModal } from './CustomModal';
 import { Paper } from './Paper';
 import { PercentageBadge } from './PercentageBadge';
-import closeIcon from 'assets/close.svg';
 
-//Modal.defaultStyles.overlay.backgroundColor = 'red';
 type PropsType = {
   name: string;
   id: string;
@@ -60,13 +59,7 @@ export const LessonCard: React.FC<PropsType> = ({
           <Button fullWidth variant="secondary" onClick={() => setIsOpenModal(true)}>
             Overview
           </Button>
-          <Modal
-            closeTimeoutMS={150}
-            isOpen={isOpenModal}
-            onRequestClose={() => setIsOpenModal(false)}
-            style={customStyles}
-            contentLabel="Example Modal"
-          >
+          <CustomModal isOpen={isOpenModal} setIsOpen={setIsOpenModal}>
             <div className="flex justify-between">
               <h3 className="text-3xl font-semibold">{name}</h3>
               <button onClick={() => setIsOpenModal(false)}>
@@ -100,29 +93,11 @@ g.getName();`}</pre>
             <Link className="w-full" to={`/lessons/${section}/${id}`}>
               <Button fullWidth>Start</Button>
             </Link>
-          </Modal>
+          </CustomModal>
         </div>
       </div>
     </Paper>
   );
-};
-
-const customStyles = {
-  overlay: {
-    zIndex: 101,
-    backgroundColor: '#00000055',
-  },
-  content: {
-    maxWidth: '768px',
-    width: '100%',
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    border: 'none',
-  },
 };
 
 type DetailsBtnPropsType = {
