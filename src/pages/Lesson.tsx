@@ -5,10 +5,10 @@ import restartIcon from 'assets/restart.svg';
 import speedIcon from 'assets/speed.svg';
 import startIcon from 'assets/start.svg';
 import { CustomModal } from 'components/CustomModal';
+import { DifficultyBadge } from 'components/DifficultyBadge';
 import { useCounter } from 'hooks/useCounter';
 import { useKeyboardInput } from 'hooks/useKeyboardInput';
 import React, { useEffect, useRef, useState } from 'react';
-import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Paper } from '../components/Paper';
 
@@ -34,15 +34,17 @@ export const Lesson: React.FC = () => {
     accuracy: 0,
     lines: 256,
   };
-  let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n}`;
+  //let example = `class Greeter {\n\tpublic greet()`;
+  let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";}\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
 
   const invisibleInput = useRef<null | HTMLInputElement>(null);
   const lessonCode = useRef<null | HTMLPreElement>(null);
 
   const [isOpenModal, setIsOpenModal] = useState(true);
-  const { currentChar, typed, handleInput } = useKeyboardInput(lessonCode);
-  const { counter } = useCounter(!isOpenModal);
-
+  const [indicators, setIndicators] = useState({ wpm: 0, accuracy: 100 });
+  const { currentChar, typed, isLessonEnded, handleInput } = useKeyboardInput(lessonCode);
+  const { counter } = useCounter(!isOpenModal && !isLessonEnded);
+  console.log(isLessonEnded);
   const startLesson = () => {
     if (currentChar) {
       setIsOpenModal(false);
@@ -56,27 +58,22 @@ export const Lesson: React.FC = () => {
     //restartCounter();
     window.location.reload();
   };
-
   useEffect(() => {
-    console.log(document.activeElement);
-  }, [counter]);
+    // here i use custom wpm formula, because with original f. when you hit error wpm falls heavily
+    const wpm = +(((typed.total - typed.wrong) / 5 / (counter.time + 0.1)) * 60).toFixed(0);
+    const accuracy = +(((typed.total - typed.wrong) / (typed.total + 0.00001)) * 100).toFixed(2);
+    setIndicators({
+      wpm: wpm > 0 ? wpm : 0,
+      accuracy: accuracy === 0 ? 100 : accuracy,
+    });
+  }, [typed, counter.time]);
 
   return (
     <div className="my-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <h3 className="text-3xl font-semibold mr-4">{lesson.name}</h3>
-          <Badge
-            color={
-              lesson.difficulty === 'easy'
-                ? 'green'
-                : lesson.difficulty === 'medium'
-                ? 'yellow'
-                : 'red'
-            }
-            value={lesson.difficulty[0].toUpperCase() + lesson.difficulty.slice(1)}
-            size="large"
-          />
+          <DifficultyBadge difficulty={lesson.difficulty} size="large" />
         </div>
         <div className="flex items-center">
           <h4 className="text-2xl font-semibold mr-2 text-gray-500">Time:</h4>
@@ -88,72 +85,31 @@ export const Lesson: React.FC = () => {
         </div>
       </div>
       <Paper className="mt-4">
-        <div className="flex gap-8 mb-4">
-          <div>
-            <div className="flex items-center opacity-50">
-              <img className="mr-1" src={speedIcon} width={36} height={36} alt="speed icon" />
-              <span className="text-xl font-semibold">Speed</span>
-            </div>
-            <div className="text-indigo-600">
-              <span className="text-3xl font-bold">
-                {(((typed.total / 5 - typed.wrong) / (counter.time + 1)) * 60).toFixed(0)}
+        <Indicators wpm={indicators.wpm} accuracy={indicators.accuracy} typed={typed} />
+        <div className="relative mt-8 mb-4">
+          <pre ref={lessonCode} className="text-xl text-gray-500 font-medium font-mono">
+            {example.split('').map((char, i) => (
+              <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
+                {char}
               </span>
-              <span className="text-xs font-semibold">WPM</span>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center opacity-50">
-              <img
-                className="mr-1 p-0.5"
-                src={accuracyIcon}
-                width={36}
-                height={36}
-                alt="accuracy icon"
-              />
-              <span className="text-xl font-semibold">Accuracy</span>
-            </div>
-            <div className="text-indigo-600">
-              <span className="text-3xl font-bold">
-                {(((typed.total - typed.wrong) / typed.total) * 100).toFixed(2)}
-              </span>
-              <span className="text-xs font-semibold">%</span>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center opacity-50">
-              <img className="mr-1" src={keyboardIcon} width={36} height={36} alt="keyboard icon" />
-              <span className="text-xl font-semibold">Typed</span>
-            </div>
-            <div className="text-indigo-600">
-              <span className="text-3xl font-bold">{typed.total}</span>
-              <span className="text-xs font-semibold">CHARS</span>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center opacity-50">
-              <img className="mr-1" src={errorIcon} width={36} height={36} alt="error icon" />
-              <span className="text-xl font-semibold">Errors</span>
-            </div>
-            <div className="text-indigo-600">
-              <span className="text-3xl font-bold">{typed.wrong}</span>
-              <span className="text-xs font-semibold">CHARS</span>
-            </div>
+            ))}
+          </pre>
+          <div
+            className={`transition-all absolute top-0 min-w-full min-h-full bg-white opacity-0 ${
+              isLessonEnded ? 'opacity-100' : ''
+            } flex items-center justify-center`}
+          >
+            <h3 className="text-2xl text-indigo-600 font-semibold">Congratulation</h3>
           </div>
         </div>
-
-        <pre ref={lessonCode} className="text-lg text-gray-500 font-medium font-mono">
-          {example.split('').map((char, i) => (
-            <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
-              {char}
-            </span>
-          ))}
-        </pre>
-        <input
-          ref={invisibleInput}
-          onBlur={() => invisibleInput?.current?.focus()}
-          onKeyDown={handleInput}
-          className="fixed -left-full"
-        />
+        {!isLessonEnded && (
+          <input
+            ref={invisibleInput}
+            onBlur={() => invisibleInput?.current?.focus()}
+            onKeyDown={handleInput}
+            className="fixed -left-full"
+          />
+        )}
         <CustomModal
           isOpen={isOpenModal}
           setIsOpen={setIsOpenModal}
@@ -171,6 +127,69 @@ export const Lesson: React.FC = () => {
           </div>
         </CustomModal>
       </Paper>
+    </div>
+  );
+};
+
+type IndicatorsPropsType = {
+  wpm: number;
+  accuracy: number;
+  typed: {
+    total: number;
+    wrong: number;
+  };
+};
+
+const Indicators: React.FC<IndicatorsPropsType> = ({ wpm, accuracy, typed }) => {
+  return (
+    <div className="flex gap-10">
+      <div>
+        <div className="flex items-center opacity-50">
+          <img className="mr-2" src={speedIcon} width={36} height={36} alt="speed icon" />
+          <span className="text-xl font-semibold">Speed</span>
+        </div>
+        <div className="text-indigo-600">
+          <span className="text-4xl font-bold ">{wpm}</span>
+          <span className="text-sm font-semibold">WPM</span>
+        </div>
+      </div>
+      <div>
+        <div className="flex items-center opacity-50">
+          <img
+            className="mr-2 p-0.5"
+            src={accuracyIcon}
+            width={36}
+            height={36}
+            alt="accuracy icon"
+          />
+          <span className="text-xl font-semibold">Accuracy</span>
+        </div>
+
+        <div className="text-indigo-600">
+          <span className="text-4xl font-bold">{accuracy}</span>
+          <span className="text-sm font-semibold">%</span>
+        </div>
+      </div>
+      <div>
+        <div className="flex items-center opacity-50">
+          <img className="mr-2" src={keyboardIcon} width={36} height={36} alt="keyboard icon" />
+          <span className="text-xl font-semibold">Typed</span>
+        </div>
+        <div className="text-indigo-600">
+          <span className="text-4xl font-bold">{typed.total}</span>
+          <span className="text-sm font-semibold">CHARS</span>
+        </div>
+      </div>
+      <div>
+        <div className="flex items-center opacity-50">
+          <img className="mr-2" src={errorIcon} width={36} height={36} alt="error icon" />
+          <span className="text-xl font-semibold">Errors</span>
+        </div>
+        <div className="text-indigo-600">
+          <span className="text-4xl font-bold">{typed.wrong}</span>
+          <span className="text-sm font-semibold">CHARS</span>
+        </div>
+      </div>
     </div>
   );
 };

@@ -5,8 +5,10 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
     total: 0,
     wrong: 0,
   });
+  const [isLessonEnded, setIsLessonEnded] = useState(false);
 
   const changeCurrentChar = (newVal: Element) => {
+    if (!newVal) return setIsLessonEnded(true);
     setCurrentChar(newVal);
     newVal.classList.add(`bg-green-500`);
     newVal.classList.add(`text-white`);
@@ -26,9 +28,11 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
     if (e.key === 'Backspace' && isError) {
       currentChar.classList.add(`bg-green-500`);
       cleanUp(['bg-red-500']);
+      //setTyped((prev) => ({ ...prev, total: prev.total - 1 }));
       return;
     } else if (e.key === 'Backspace' && currCharIndex !== 0) {
       cleanUp(['text-white', 'text-black', 'bg-red-500', 'bg-green-500']);
+      //setTyped((prev) => ({ ...prev, total: prev.total - 1 }));
 
       let skippedChars = 1;
       while (chars[currCharIndex - skippedChars].textContent === '\t') skippedChars++;
@@ -59,5 +63,5 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
     }
   };
 
-  return { currentChar, handleInput, typed };
+  return { currentChar, handleInput, typed, isLessonEnded };
 };

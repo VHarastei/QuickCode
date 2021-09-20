@@ -1,9 +1,9 @@
 import closeIcon from 'assets/close.svg';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge } from './Badge';
 import { Button } from './Button';
 import { CustomModal } from './CustomModal';
+import { DifficultyBadge } from './DifficultyBadge';
 import { Paper } from './Paper';
 import { PercentageBadge } from './PercentageBadge';
 
@@ -42,10 +42,7 @@ export const LessonCard: React.FC<PropsType> = ({
       </div>
       <div className="flex justify-between pb-1.5">
         <h5 className="text-1xl font-semibold text-gray-500">Difficulty</h5>
-        <Badge
-          color={difficulty === 'easy' ? 'green' : difficulty === 'medium' ? 'yellow' : 'red'}
-          value={difficulty[0].toUpperCase() + difficulty.slice(1)}
-        />
+        <DifficultyBadge difficulty={difficulty} />
       </div>
       <div className="flex justify-between pb-3">
         <h5 className="text-1xl font-semibold text-gray-500">Size</h5>
@@ -87,6 +84,7 @@ class SpecialGreeter extends Greeter {
     console.log("Howdy, " + this.getName());
   }
 }
+
 const g = new SpecialGreeter();
 g.greet(); // OK
 g.getName();`}</pre>
