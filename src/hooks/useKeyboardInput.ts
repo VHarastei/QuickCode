@@ -8,10 +8,14 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
   const [isLessonEnded, setIsLessonEnded] = useState(false);
 
   const changeCurrentChar = (newVal: Element) => {
-    if (!newVal) return setIsLessonEnded(true);
+    if (!newVal && lessonCode.current) {
+      lessonCode.current.classList.add('overflow-y-hidden');
+      return setIsLessonEnded(true);
+    }
     setCurrentChar(newVal);
     newVal.classList.add(`bg-green-500`);
     newVal.classList.add(`text-white`);
+    newVal.scrollIntoView({ block: 'center', behavior: 'smooth' });
   };
   const cleanUp = (s: string[]) => s.forEach((i) => currentChar?.classList.remove(i));
 

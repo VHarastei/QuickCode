@@ -11,9 +11,19 @@ module.exports = {
         lightBlue: {
           DEFAULT: '#61DAFB',
         },
+        keyBlack: {
+          DEFAULT: '#42403E',
+        },
       },
       fontSize: {
         '4.5xl': '2.5rem',
+      },
+      margin: {
+        23: '5.625rem',
+        0.75: '0.188rem',
+      },
+      maxWidth: {
+        s: '12rem',
       },
     },
   },

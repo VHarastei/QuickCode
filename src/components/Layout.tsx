@@ -29,7 +29,7 @@ export const Layout: React.FC = ({ children }) => {
           </div>
         </div>
       </nav>
-      <div className="max-w-7xl mx-auto pt-24 px-4 mb-auto w-full">{children}</div>
+      <div className="max-w-7xl mx-auto mt-23 px-4 mb-auto w-full">{children}</div>
       <footer className="py-4 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between px-4">
           <h5 className="text-gray-500 font-medium text-lg">
