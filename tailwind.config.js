@@ -24,6 +24,13 @@ module.exports = {
       },
       maxWidth: {
         s: '12rem',
+        '3.5xl': '51rem',
+      },
+      width: {
+        25: '6.25rem',
+        26: '6.5rem',
+        34: '8.5rem',
+        98: '27.250rem',
       },
     },
   },

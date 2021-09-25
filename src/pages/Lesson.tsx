@@ -34,8 +34,8 @@ const lesson: PropsType = {
   accuracy: 0,
   lines: 256,
 };
-let example = `1\n2\n3\n4\n5\n6\n7\n8\n9\n0\n1\n2\n3\n4`;
-//let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";}\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
+//let example = `1\n2\n3\n4\n5\n6\n7\n8\n9\n0\n1\n2\n3\n4`;
+let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
 
 export const Lesson: React.FC = () => {
   const invisibleInput = useRef<null | HTMLInputElement>(null);
@@ -70,7 +70,7 @@ export const Lesson: React.FC = () => {
   }, [typed, counter.time]);
 
   return (
-    <div onKeyDown={(e) => console.log(e.key)}>
+    <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <h3 className="text-3xl font-semibold mr-4">{lesson.name}</h3>
@@ -85,69 +85,75 @@ export const Lesson: React.FC = () => {
           </Button>
         </div>
       </div>
-      <Paper className="my-4">
-        <div className="flex gap-6">
-          <Indicator name="Speed" measure="WPM" value={indicators.wpm} icon={speedIcon} />
-          <Indicator name="Accuracy" measure="%" value={indicators.accuracy} icon={accuracyIcon} />
-          <Indicator name="Typed" measure="CHARS" value={typed.total} icon={keyboardIcon} />
-          <Indicator name="Errors" measure="CHARS" value={typed.wrong} icon={errorIcon} />
-        </div>
-        <div className="relative mt-2">
-          <pre
-            ref={lessonCode}
-            className="text-base text-gray-500 font-medium font-mono max-h-44 overflow-y-scroll"
-          >
-            {example.split('').map((char, i) => (
-              <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
-                {char}
-              </span>
-            ))}
-          </pre>
-          <div
-            className={`transition-all absolute top-0 min-w-full min-h-full bg-white opacity-0 ${
-              isLessonEnded ? 'opacity-100' : ''
-            } flex items-center justify-center flex-col`}
-          >
-            <h3 className="text-4xl text-indigo-600 font-semibold">Congratulation!</h3>
-            <h4 className="text-2xl text-gray-500 font-semibold">
-              You have passed the lesson, you can start the next lesson or try again
-            </h4>
-            <div className="flex gap-4 w-1/2 mt-4">
-              <Link className="w-full" to={`/lessons/typescript/random`}>
-                <Button fullWidth>Next lesson</Button>
-              </Link>
-              <Link className="w-full" to={`/lessons/typescript`}>
-                <Button fullWidth>See more lessons</Button>
-              </Link>
+      <LessonKeyboard>
+        <Paper className="my-4">
+          <div className="flex gap-6">
+            <Indicator name="Speed" measure="WPM" value={indicators.wpm} icon={speedIcon} />
+            <Indicator
+              name="Accuracy"
+              measure="%"
+              value={indicators.accuracy}
+              icon={accuracyIcon}
+            />
+            <Indicator name="Typed" measure="CHARS" value={typed.total} icon={keyboardIcon} />
+            <Indicator name="Errors" measure="CHARS" value={typed.wrong} icon={errorIcon} />
+          </div>
+          <div className="relative mt-2">
+            <pre
+              ref={lessonCode}
+              className="text-base text-gray-500 font-medium font-mono max-h-44 overflow-y-scroll"
+            >
+              {example.split('').map((char, i) => (
+                <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
+                  {char}
+                </span>
+              ))}
+            </pre>
+            <div
+              className={`transition-all absolute top-0 min-w-full min-h-full bg-white opacity-0 ${
+                isLessonEnded ? 'opacity-100' : ''
+              } flex items-center justify-center flex-col`}
+            >
+              <h3 className="text-4xl text-indigo-600 font-semibold">Congratulation!</h3>
+              <h4 className="text-2xl text-gray-500 font-semibold">
+                You have passed the lesson, you can start the next lesson or try again
+              </h4>
+              <div className="flex gap-4 w-1/2 mt-4">
+                <Link className="w-full" to={`/lessons/typescript/random`}>
+                  <Button fullWidth>Next lesson</Button>
+                </Link>
+                <Link className="w-full" to={`/lessons/typescript`}>
+                  <Button fullWidth>See more lessons</Button>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-        {!isLessonEnded && (
-          <input
-            ref={invisibleInput}
-            onBlur={() => invisibleInput?.current?.focus()}
-            onKeyDown={handleInput}
-            className="fixed -left-full"
-          />
-        )}
-        <CustomModal
-          isOpen={isOpenModal}
-          setIsOpen={setIsOpenModal}
-          shouldCloseOnOverlayClick={false}
-          maxWidth={500}
-        >
-          <div className="flex flex-col items-center">
-            <div className="bg-indigo-200 p-3 rounded-lg w-20">
-              <img width={64} height={64} src={startIcon} alt="start icon" />
-            </div>
-            <h4 className="text-3xl font-semibold py-4">Please be prepared. Good luck!</h4>
-            <Button fullWidth onClick={startLesson}>
-              Start Typing Now
-            </Button>
+          {!isLessonEnded && (
+            <input
+              ref={invisibleInput}
+              onBlur={() => invisibleInput?.current?.focus()}
+              onKeyDown={handleInput}
+              className="fixed -left-full"
+            />
+          )}
+        </Paper>
+      </LessonKeyboard>
+      <CustomModal
+        isOpen={isOpenModal}
+        setIsOpen={setIsOpenModal}
+        shouldCloseOnOverlayClick={false}
+        maxWidth={500}
+      >
+        <div className="flex flex-col items-center">
+          <div className="bg-indigo-200 p-3 rounded-lg w-20">
+            <img width={64} height={64} src={startIcon} alt="start icon" />
           </div>
-        </CustomModal>
-      </Paper>
-      <LessonKeyboard />
+          <h4 className="text-3xl font-semibold py-4">Please be prepared. Good luck!</h4>
+          <Button fullWidth onClick={startLesson}>
+            Start Typing Now
+          </Button>
+        </div>
+      </CustomModal>
     </div>
   );
 };
