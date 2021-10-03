@@ -8,6 +8,7 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
   const [isLessonEnded, setIsLessonEnded] = useState(false);
 
   const changeCurrentChar = (newVal: Element) => {
+    //this check if next item === undefined, end lesson
     if (!newVal && lessonCode.current) {
       lessonCode.current.classList.add('overflow-y-hidden');
       return setIsLessonEnded(true);
@@ -32,11 +33,9 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
     if (e.key === 'Backspace' && isError) {
       currentChar.classList.add(`bg-green-500`);
       cleanUp(['bg-red-500']);
-      //setTyped((prev) => ({ ...prev, total: prev.total - 1 }));
       return;
     } else if (e.key === 'Backspace' && currCharIndex !== 0) {
       cleanUp(['text-white', 'text-black', 'bg-red-500', 'bg-green-500']);
-      //setTyped((prev) => ({ ...prev, total: prev.total - 1 }));
 
       let skippedChars = 1;
       while (chars[currCharIndex - skippedChars].textContent === '\t') skippedChars++;
@@ -45,6 +44,8 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
       return;
     }
 
+    if (isError || e.key === 'Shift') return;
+
     if (e.key === 'Enter' && currentChar.textContent === '\n') {
       cleanUp(['bg-green-500']);
 
@@ -52,7 +53,6 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
       while (chars[currCharIndex + skippedChars].textContent === '\t') skippedChars++;
       return changeCurrentChar(chars[currCharIndex + skippedChars]);
     }
-    if (isError || e.key === 'Shift') return;
 
     setTyped((prev) => ({ ...prev, total: prev.total + 1 }));
 

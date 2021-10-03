@@ -56,14 +56,14 @@ export const LessonKeyboard: React.FC = ({ children }) => {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     handleKeyEvent(e, (li) => {
-      li.classList.add('bg-keyBlack');
+      li.classList.add('bg-indigo-800');
       li.classList.add('text-white');
     });
   };
 
   const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
     handleKeyEvent(e, (li) => {
-      li.classList.remove('bg-keyBlack');
+      li.classList.remove('bg-indigo-800');
       li.classList.remove('text-white');
     });
   };
@@ -71,7 +71,7 @@ export const LessonKeyboard: React.FC = ({ children }) => {
   return (
     <div ref={lesson} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
       {children}
-      <div className="m-auto max-w-3.5xl w-full bg-gray-400 rounded-xl p-5 text-keyBlack">
+      <div className="m-auto max-w-3.5xl w-full bg-gray-400 rounded-xl p-5 text-indigo-800">
         <ul className="flex text-base leading-5">
           <Key value={['~', '`']} />
           <Key value={['!', '1']} />
@@ -86,10 +86,10 @@ export const LessonKeyboard: React.FC = ({ children }) => {
           <Key value={[')', '0']} />
           <Key value={['_', '-']} />
           <Key value={['+', '=']} />
-          <Key value="Backspace" className="bg-gray-300 w-24" />
+          <Key value="Backspace" className="bg-gray-200 w-24" />
         </ul>
         <ul className="flex text-base leading-5">
-          <Key value="Tab" className="bg-gray-300 w-20" />
+          <Key value="Tab" className="bg-gray-200 w-20" />
           <Key value="Q" />
           <Key value="W" />
           <Key value="E" />
@@ -105,7 +105,7 @@ export const LessonKeyboard: React.FC = ({ children }) => {
           <Key value={['|', '\\']} className="w-16" />
         </ul>
         <ul className="flex text-base leading-5">
-          <Key value="Caps Lock" customKeyClass="key-capslock" className="bg-gray-300 w-24" />
+          <Key value="Caps Lock" customKeyClass="key-capslock" className="bg-gray-200 w-24" />
           <Key value="A" />
           <Key value="S" />
           <Key value="D" />
@@ -117,11 +117,11 @@ export const LessonKeyboard: React.FC = ({ children }) => {
           <Key value="L" />
           <Key value={[':', ';']} />
           <Key value={['"', "'"]} />
-          <Key value="Enter" className="bg-gray-300 w-25" />
+          <Key value="Enter" className="bg-gray-200 w-25" />
         </ul>
         <ul className="flex text-base leading-5">
           {/* w-26 */}
-          <Key value="Shift" customKeyClass="key-shift-1" className="bg-gray-300 w-28" />
+          <Key value="Shift" customKeyClass="key-shift-1" className="bg-gray-200 w-28" />
           <Key value="Z" />
           <Key value="X" />
           <Key value="C" />
@@ -132,14 +132,14 @@ export const LessonKeyboard: React.FC = ({ children }) => {
           <Key value={['<', ',']} />
           <Key value={['>', '.']} />
           <Key value={['?', '/']} />
-          <Key value="Shift" customKeyClass="key-shift-2" className="bg-gray-300 w-34" />
+          <Key value="Shift" customKeyClass="key-shift-2" className="bg-gray-200 w-34" />
         </ul>
         <ul className="flex text-base leading-5">
-          <Key value="Ctrl" customKeyClass="key-control-1" className="bg-gray-300 w-20" />
-          <Key value="Alt" customKeyClass="key-alt-1" className="bg-gray-300 w-20" />
+          <Key value="Ctrl" customKeyClass="key-control-1" className="bg-gray-200 w-20" />
+          <Key value="Alt" customKeyClass="key-alt-1" className="bg-gray-200 w-20" />
           <Key value="" customKeyClass="key-space" className="w-98" />
-          <Key value="Alt" customKeyClass="key-alt-2" className="bg-gray-300 w-20" />
-          <Key value="Ctrl" customKeyClass="key-control-2" className="bg-gray-300 w-20" />
+          <Key value="Alt" customKeyClass="key-alt-2" className="bg-gray-200 w-20" />
+          <Key value="Ctrl" customKeyClass="key-control-2" className="bg-gray-200 w-20" />
         </ul>
       </div>
     </div>

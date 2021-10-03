@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const Landing = () => {
+export const Home = () => {
   return (
-    <div className="">
+    <div data-testid="home">
       <h1 className="my-12 text-center text-5xl font-bold text-indigo-600">
         Typing Practice for Frontend Developers
       </h1>

@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { SectionCard } from 'components/SectionCard';
+import { fireEvent, screen } from '@testing-library/react';
 import jsIcon from 'assets/js.svg';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { SectionCard } from 'components/SectionCard';
+import { renderWithRouter } from 'utils/renderWithRouter';
 
 const props = {
   icon: jsIcon,
@@ -13,23 +13,34 @@ const props = {
   numberOfLessons: 42,
 };
 
-beforeEach(() => {
-  render(
-    <Router>
-      <SectionCard {...props} />
-    </Router>
-  );
-});
-
 describe('SectionCard component', () => {
   it('display icon', () => {
+    renderWithRouter(<SectionCard {...props} />);
     const icon = screen.getByAltText('lang icon') as HTMLImageElement;
     expect(icon.src).toContain(jsIcon);
   });
   it('have name', () => {
+    renderWithRouter(<SectionCard {...props} />);
     expect(screen.getByText(props.name)).toBeInTheDocument();
   });
   it('have decription', () => {
+    renderWithRouter(<SectionCard {...props} />);
     expect(screen.getByText(props.decription)).toBeInTheDocument();
+  });
+  it('should navigate to /lessons/javascript', () => {
+    const { history } = renderWithRouter(<SectionCard {...props} />, { route: '/lessons' });
+    const btn = screen.getByText(/explore/i);
+    expect(btn).toBeInTheDocument();
+
+    fireEvent.click(btn);
+    expect(history.location.pathname).toBe('/lessons/javascript');
+  });
+  it('should navigate to /lessons/javascript/random', () => {
+    const { history } = renderWithRouter(<SectionCard {...props} />, { route: '/lessons' });
+    const btn = screen.getByText(/pick random lesson/i);
+    expect(btn).toBeInTheDocument();
+
+    fireEvent.click(btn);
+    expect(history.location.pathname).toBe('/lessons/javascript/random');
   });
 });

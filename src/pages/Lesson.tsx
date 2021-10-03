@@ -70,7 +70,7 @@ export const Lesson: React.FC = () => {
   }, [typed, counter.time]);
 
   return (
-    <div>
+    <div data-testid="lesson">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <h3 className="text-3xl font-semibold mr-4">{lesson.name}</h3>

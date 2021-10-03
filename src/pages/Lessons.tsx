@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Lessons = () => {
   return (
-    <div className="my-4">
+    <div className="my-4" data-testid="lessons">
       <h1 className="text-center text-4xl font-bold text-indigo-600">TypeScript lessons</h1>
       <h2 className="my-3 text-center text-3xl font-semibold text-gray-500">
         Choose and start your lesson

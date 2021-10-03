@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 export const Sections = () => {
   return (
-    <div className="my-4">
+    <div className="my-4" data-testid="sections">
       <h1 className="text-center text-4xl font-bold text-indigo-600">
         Improve your Typing with Open Source Code
       </h1>
