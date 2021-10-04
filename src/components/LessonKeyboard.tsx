@@ -1,4 +1,5 @@
 import React, { KeyboardEvent, useRef } from 'react';
+import { LessonKeyboardKey as Key } from './LessonKeyboardKey';
 
 export const LessonKeyboard: React.FC = ({ children }) => {
   const lesson = useRef<null | HTMLDivElement>(null);
@@ -38,8 +39,9 @@ export const LessonKeyboard: React.FC = ({ children }) => {
   // };
 
   const handleKeyEvent = (e: KeyboardEvent<HTMLDivElement>, callback: (li: Element) => void) => {
-    if (!lesson.current) return;
+    if (!lesson.current || !lesson.current.children[1]) return;
     const location = e.location;
+
     Array.from(lesson.current.children[1].children).forEach((ul) => {
       Array.from(ul.children).forEach((li) => {
         if (
@@ -69,7 +71,7 @@ export const LessonKeyboard: React.FC = ({ children }) => {
   };
 
   return (
-    <div ref={lesson} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
+    <div data-testid="keyboard" ref={lesson} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
       {children}
       <div className="m-auto max-w-3.5xl w-full bg-gray-400 rounded-xl p-5 text-indigo-800">
         <ul className="flex text-base leading-5">
@@ -143,32 +145,5 @@ export const LessonKeyboard: React.FC = ({ children }) => {
         </ul>
       </div>
     </div>
-  );
-};
-
-type KeyPropsType = {
-  value: string | string[];
-  customKeyClass?: string | string[];
-  className?: string;
-};
-
-const Key: React.FC<KeyPropsType> = ({ value, customKeyClass, className }) => {
-  const isDual = typeof value !== typeof 'string';
-  const keyClass = isDual ? `key-${value[0]} key-${value[1]}` : `key-${value}`;
-  return (
-    <li
-      className={`${customKeyClass ? customKeyClass : keyClass.toLowerCase()} ${
-        className ? className : ''
-      } flex items-center flex-col justify-center w-12 h-12 bg-white m-0.5`}
-    >
-      {!isDual ? (
-        `${value}`
-      ) : (
-        <>
-          <span>{`${value[0]}`}</span>
-          <span>{`${value[1]}`}</span>
-        </>
-      )}
-    </li>
   );
 };
