@@ -34,8 +34,8 @@ const lesson: PropsType = {
   accuracy: 0,
   lines: 256,
 };
-//let example = `1\n2\n3\n4\n5\n6\n7\n8\n9\n0\n1\n2\n3\n4`;
-let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
+let example = `1\n2\n3\n4\n5\n6\n7\n8`;
+//let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
 
 export const Lesson: React.FC = () => {
   const invisibleInput = useRef<null | HTMLInputElement>(null);
@@ -85,7 +85,7 @@ export const Lesson: React.FC = () => {
           </Button>
         </div>
       </div>
-      <LessonKeyboard>
+      <LessonKeyboard isLessonEnded={isLessonEnded}>
         <Paper className="my-4">
           <div className="flex gap-6">
             <Indicator name="Speed" measure="WPM" value={indicators.wpm} icon={speedIcon} />

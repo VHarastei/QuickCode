@@ -3,7 +3,7 @@ import { LessonKeyboard } from 'components/LessonKeyboard';
 
 describe('LessonKeyboard component', () => {
   it('KeyDown and KeyUp events', () => {
-    render(<LessonKeyboard />);
+    render(<LessonKeyboard isLessonEnded={false} />);
     let keyboard = screen.getByTestId('keyboard');
     let key = screen.getByText('F');
     expect(key).not.toHaveClass('bg-indigo-800', 'text-white');

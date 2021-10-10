@@ -1,8 +1,13 @@
 import React, { KeyboardEvent, useRef } from 'react';
 import { LessonKeyboardKey as Key } from './LessonKeyboardKey';
 
-export const LessonKeyboard: React.FC = ({ children }) => {
+type PropsType = {
+  isLessonEnded: boolean;
+};
+
+export const LessonKeyboard: React.FC<PropsType> = ({ isLessonEnded, children }) => {
   const lesson = useRef<null | HTMLDivElement>(null);
+  const lastKey = useRef<null | any>(null);
   // const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
   //   if (!lesson.current) return;
   //   const location = e.location;
@@ -58,6 +63,7 @@ export const LessonKeyboard: React.FC = ({ children }) => {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     handleKeyEvent(e, (li) => {
+      lastKey.current = li;
       li.classList.add('bg-indigo-800');
       li.classList.add('text-white');
     });
@@ -69,6 +75,11 @@ export const LessonKeyboard: React.FC = ({ children }) => {
       li.classList.remove('text-white');
     });
   };
+  if (isLessonEnded) {
+    let li = lastKey.current;
+    li.classList.remove('bg-indigo-800');
+    li.classList.remove('text-white');
+  }
 
   return (
     <div data-testid="keyboard" ref={lesson} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
