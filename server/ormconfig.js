@@ -6,8 +6,11 @@ module.exports = {
   password: 'root',
   database: 'quickcode',
   synchronize: true,
-  //entities: ['dist/**/*.entity{.ts,.js}'],
-  entities: ['src/**/*.entity{.ts,.js}'], //seed
-  seeds: ['src/seeds/**/*{.ts,.js}'],
-  factories: ['src/factories/**/*{.ts,.js}'],
+  // //entities: ['dist/**/*.entity{.ts,.js}'],
+  // entities: ['src/**/*.entity{.ts,.js}'], //seed
+  // seeds: ['src/seeds/**/*{.ts,.js}'],
+  // factories: ['src/factories/**/*{.ts,.js}'],
+  entities: ['dist/**/*.entity{.ts,.js}'],
+  factories: ['dist/**/database/factories/**/*.js'],
+  seeds: ['dist/**/database/seeds/**/*.js'],
 };

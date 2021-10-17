@@ -1,9 +1,10 @@
-import { Section } from './../section/entities/section.entity';
+import { Section } from '../../section/entities/section.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 
 export default class CreateSections implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
+    console.log('SECTION SEEDED');
     await connection
       .createQueryBuilder()
       .insert()
@@ -34,13 +35,13 @@ export default class CreateSections implements Seeder {
             'Learn to write beautiful and adaptive CSS styles faster and more accurately than ever before',
         },
         {
-          id: 'reactjs',
+          id: 'react-js',
           name: 'React JS',
           description:
             'Learn to write faster JS code for React components, JSX, hooks and the latest React features',
         },
         {
-          id: 'reactts',
+          id: 'react-ts',
           name: 'React TS',
           description:
             'Improve the speed of writing typed React components using generics, PropsType, etc.',
