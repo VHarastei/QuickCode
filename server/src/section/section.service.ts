@@ -1,5 +1,5 @@
 import { Section } from './entities/section.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,15 +24,15 @@ export class SectionService {
     return this.sectionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} section`;
-  }
-
-  // update(id: number, updateSectionDto: UpdateSectionDto) {
-  //   return `This action updates a #${id} section`;
-  // }
-
-  remove(id: number) {
-    return `This action removes a #${id} section`;
+  async findOne(id: string) {
+    const data = await this.sectionRepository
+      .createQueryBuilder('section')
+      .leftJoinAndSelect('section.lessons', 'lesson')
+      .where('section.id = :id', { id })
+      .getOne();
+    if (!data) {
+      throw new NotFoundException('Section not found');
+    }
+    return data;
   }
 }

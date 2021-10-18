@@ -11,7 +11,7 @@ import { AttemptService } from './attempt.service';
 import { CreateAttemptDto } from './dto/create-attempt.dto';
 import { UpdateAttemptDto } from './dto/update-attempt.dto';
 
-@Controller('attempts')
+@Controller('attempt')
 export class AttemptController {
   constructor(private readonly attemptService: AttemptService) {}
 
@@ -25,7 +25,6 @@ export class AttemptController {
     return this.attemptService.findAll();
   }
 
-  //('/api/attempt/:id', () => { next() }, (res, req) => {})
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.attemptService.findOne(+id);

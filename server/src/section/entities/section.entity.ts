@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Lesson } from 'src/lesson/entities/lesson.entity';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Section {
@@ -10,4 +11,7 @@ export class Section {
 
   @Column()
   description: string;
+
+  @OneToMany(() => Lesson, (lesson) => lesson.section)
+  lessons: Lesson[];
 }

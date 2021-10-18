@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
-import { SectionService } from './section.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateSectionDto } from './dto/create-section.dto';
+import { SectionService } from './section.service';
 
 @Controller('sections')
 export class SectionController {
@@ -18,16 +18,6 @@ export class SectionController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.sectionService.findOne(+id);
-  }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateSectionDto: UpdateSectionDto) {
-  //   return this.sectionService.update(+id, updateSectionDto);
-  // }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sectionService.remove(+id);
+    return this.sectionService.findOne(id);
   }
 }

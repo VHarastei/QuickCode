@@ -1,5 +1,12 @@
 import { Section } from 'src/section/entities/section.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity()
 export class Lesson {
@@ -27,4 +34,7 @@ export class Lesson {
   @ManyToOne(() => Section)
   @JoinColumn({ name: 'sectionId' })
   section: Section;
+
+  // @OneToMany(() => Attempt, (attempt) => attempt.lesson)
+  // attempts: Attempt[];
 }

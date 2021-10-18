@@ -1,16 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { LessonService } from './lesson.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateLessonDto } from './dto/create-lesson.dto';
+import { LessonService } from './lesson.service';
 
-@Controller('lesson')
+@Controller('lessons')
 export class LessonController {
   constructor(private readonly lessonService: LessonService) {}
 
@@ -26,11 +18,6 @@ export class LessonController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.lessonService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lessonService.remove(+id);
+    return this.lessonService.findOne(id);
   }
 }
