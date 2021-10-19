@@ -1,13 +1,19 @@
 import { Lesson } from 'src/lesson/entities/lesson.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Attempt {
-  @PrimaryColumn()
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Column()
+  @Column('float')
   accuracy: number;
 
   @Column()

@@ -1,3 +1,4 @@
+import { Attempt } from 'src/attempt/entities/attempt.entity';
 import { Section } from 'src/section/entities/section.entity';
 import {
   Column,
@@ -35,6 +36,6 @@ export class Lesson {
   @JoinColumn({ name: 'sectionId' })
   section: Section;
 
-  // @OneToMany(() => Attempt, (attempt) => attempt.lesson)
-  // attempts: Attempt[];
+  @OneToMany(() => Attempt, (attempt) => attempt.lesson)
+  attempts: Attempt[];
 }

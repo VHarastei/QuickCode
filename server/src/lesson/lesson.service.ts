@@ -11,14 +11,14 @@ export class LessonService {
     private lessonRepository: Repository<Lesson>,
   ) {}
 
-  create(createLessonDto: CreateLessonDto) {
+  create(createLessonDto: CreateLessonDto): string {
     return 'This action adds a new lesson';
   }
 
-  async findAll() {
+  async findAll(): Promise<Lesson[]> {
     const data = await this.lessonRepository.find();
     if (!data) {
-      throw new NotFoundException('Section not found');
+      throw new NotFoundException('Lesson not found');
     }
     return data;
   }
@@ -27,6 +27,7 @@ export class LessonService {
     const data = await this.lessonRepository
       .createQueryBuilder('lesson')
       .leftJoinAndSelect('lesson.section', 'section')
+      .leftJoinAndSelect('lesson.attempts', 'attempts')
       .where('lesson.id = :id', { id })
       .getOne();
 
