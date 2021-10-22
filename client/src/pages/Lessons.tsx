@@ -1,10 +1,18 @@
 import { LessonCard } from 'components/LessonCard';
 import React from 'react';
+import { useHistory, useParams } from 'react-router';
+import { useGetLessonsByIdQuery } from 'services/sectionsApi';
 
 export const Lessons = () => {
+  const params: { sectionId: string } = useParams();
+  const { data: lessons } = useGetLessonsByIdQuery(params.sectionId);
+  //add types
+  console.log(lessons);
+  if (!lessons) return <div>loading</div>;
+
   return (
     <div className="my-4" data-testid="lessons">
-      <h1 className="text-center text-4xl font-bold text-indigo-600">TypeScript lessons</h1>
+      <h1 className="text-center text-4xl font-bold text-indigo-600">{`${lessons} lessons`}</h1>
       <h2 className="my-3 text-center text-3xl font-semibold text-gray-500">
         Choose and start your lesson
       </h2>

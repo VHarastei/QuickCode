@@ -4,30 +4,32 @@ import jsIcon from 'assets/js.svg';
 import reactIcon from 'assets/react.svg';
 import tsIcon from 'assets/ts.svg';
 import uploadIcon from 'assets/upload.svg';
-import { SectionCard } from 'components/SectionCard';
-import React from 'react';
+import { SectionCard, SectionCardPreloader } from 'components/SectionCard';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetSectionsQuery } from 'services/sectionsApi';
-import { SectionType } from 'store/types';
 
 export const Sections = () => {
-  const { data: sections } = useGetSectionsQuery();
+  const [delay, setDelay] = useState(false);
+  const { data: sections } = useGetSectionsQuery(null, { skip: delay });
 
-  if (!sections) return <div>isLoading</div>;
-
-  const dividedItems: SectionType[][] = [];
-  let pair: SectionType[] = [];
-
-  sections.forEach((item, index) => {
-    pair.push(item);
-    if ((index + 1) % 2 === 0) {
-      dividedItems.push(pair);
-      pair = [];
+  useEffect(() => {
+    if (!!!sections) {
+      setDelay(true); // because when we set skip: true, RTKQ doesn`t use cache
     }
-  });
+    const handler = setTimeout(() => {
+      setDelay(false);
+    }, 400);
 
-  if (pair.length <= 1) pair.push({ id: 'createCustom', name: '', description: '' });
-  if (pair.length) dividedItems.push(pair);
+    return () => clearTimeout(handler);
+  }, [sections]);
+
+  // if (sections)
+  //   return (
+  //     <div className="flex justify-center items-center">
+  //       <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-600"></div>
+  //     </div>
+  //   );
 
   return (
     <div className="my-4" data-testid="sections">
@@ -37,41 +39,41 @@ export const Sections = () => {
       <h2 className="my-3 text-center text-3xl font-semibold text-gray-500">
         Choose one section of frontend development
       </h2>
-      <div className="my-8">
-        {dividedItems.map((pair, index: number) => {
-          return (
-            <div key={index} className="flex gap-4 mb-4">
-              {pair.map((section) =>
-                section.id === 'createCustom' ? (
-                  <div
-                    key={section.id}
-                    className="m-auto w-1/2 border-4 border-dashed border-gray-400 p-6 flex flex-col items-center justify-center"
-                  >
-                    <Link to="/lessons">
-                      <div className="flex items-center pb-2">
-                        <div className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg">
-                          <img width={32} height={32} src={uploadIcon} alt="lang icon" />
-                        </div>
-                      </div>
-                    </Link>
-                    <h4 className="font-semibold text-3xl">Create custom section</h4>
-                    <div className="text-lg font-semibold text-gray-500">
-                      Here you can create custom lesson with your code
-                    </div>
-                  </div>
-                ) : (
-                  <SectionCard
-                    key={section.id}
-                    id={section.id}
-                    name={section.name}
-                    description={section.description}
-                    iconStyle={getIconStyle(section.id)}
-                  />
-                )
-              )}
+      <div className="my-8 w-full flex flex-wrap justify-center gap-y-4 gap-x-8">
+        {sections ? (
+          <>
+            {sections.map((section) => {
+              return (
+                <SectionCard
+                  key={section.id}
+                  id={section.id}
+                  name={section.name}
+                  description={section.description}
+                  iconStyle={getIconStyle(section.id)}
+                />
+              );
+            })}
+          </>
+        ) : (
+          <>
+            {[...Array(6)].map(() => (
+              <SectionCardPreloader />
+            ))}
+          </>
+        )}
+        <div className="w-1/2 -mx-2 border-4 border-dashed border-gray-400 p-6 flex flex-col items-center justify-center">
+          <Link to="/lessons">
+            <div className="flex items-center pb-2">
+              <div className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg">
+                <img width={32} height={32} src={uploadIcon} alt="lang icon" />
+              </div>
             </div>
-          );
-        })}
+          </Link>
+          <h4 className="font-semibold text-3xl">Create custom section</h4>
+          <div className="text-lg font-semibold text-gray-500">
+            Here you can create custom lesson with your code
+          </div>
+        </div>
       </div>
     </div>
   );

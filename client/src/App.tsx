@@ -10,10 +10,10 @@ function App() {
   return (
     <Layout>
       <Switch>
-        <Route path="/lessons/:section/:id">
+        <Route path="/lessons/:sectionId/:lessonId">
           <Lesson />
         </Route>
-        <Route path="/lessons/:section">
+        <Route path="/lessons/:sectionId">
           <Lessons />
         </Route>
         <Route path="/lessons">

@@ -5,12 +5,13 @@ export const sectionsApi = createApi({
   reducerPath: 'sectionsApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
   endpoints: (builder) => ({
-    getSections: builder.query<SectionType[], void>({
+    getSections: builder.query<SectionType[], any>({
       query: () => `sections`,
+    }),
+    getLessonsById: builder.query<any, string>({
+      query: (id) => `sections/${id}`,
     }),
   }),
 });
 
-// Export hooks for usage in function components, which are
-// auto-generated based on the defined endpoints
-export const { useGetSectionsQuery } = sectionsApi;
+export const { useGetSectionsQuery, useGetLessonsByIdQuery } = sectionsApi;

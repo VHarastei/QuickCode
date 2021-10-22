@@ -12,7 +12,7 @@ type PropsType = {
 
 export const SectionCard: React.FC<PropsType> = ({ id, name, description, iconStyle }) => {
   return (
-    <div className="p-4 rounded-md shadow-sm bg-white m-auto w-1/2">
+    <div className="p-4 rounded-md shadow-sm bg-white w-1/2 -mx-2">
       <div className="flex items-center pb-2">
         <div className={`${iconStyle.color} p-3 rounded-lg`}>
           <img width={32} height={32} src={iconStyle.src} alt="lang icon" />
@@ -30,6 +30,26 @@ export const SectionCard: React.FC<PropsType> = ({ id, name, description, iconSt
           </Button>
         </Link>
       </div>
+    </div>
+  );
+};
+
+export const SectionCardPreloader = () => {
+  return (
+    <div className="p-4 rounded-md shadow-sm bg-white w-1/2 -mx-2">
+      <div className="flex items-center pb-2">
+        <div className={`bg-gray-300 animate-pulse p-3 rounded-lg`}>
+          <div className="w-8 h-8"></div>
+        </div>
+        <div className="bg-gray-300 animate-pulse ml-4 text-4xl text-transparent font-semibold w-1/2 rounded-lg">
+          JavaScript
+        </div>
+      </div>
+      <p className="bg-gray-300 animate-pulse text-lg my-1 text-transparent rounded-lg">
+        Improve your speed in writing functions, algorithms, generics, types and interfaces, using
+        examples from the documentation
+      </p>
+      <div className="h-11 bg-gray-300 animate-pulse flex gap-4 mt-3 w-full rounded-lg"></div>
     </div>
   );
 };
