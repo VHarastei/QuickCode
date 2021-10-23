@@ -7,7 +7,7 @@ import uploadIcon from 'assets/upload.svg';
 import { SectionCard, SectionCardPreloader } from 'components/SectionCard';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetSectionsQuery } from 'services/sectionsApi';
+import { useGetSectionsQuery } from 'services/sectionApi';
 
 export const Sections = () => {
   const [delay, setDelay] = useState(false);
@@ -40,9 +40,8 @@ export const Sections = () => {
         Choose one section of frontend development
       </h2>
       <div className="my-8 w-full flex flex-wrap justify-center gap-y-4 gap-x-8">
-        {sections ? (
-          <>
-            {sections.map((section) => {
+        {sections
+          ? sections.map((section) => {
               return (
                 <SectionCard
                   key={section.id}
@@ -52,15 +51,8 @@ export const Sections = () => {
                   iconStyle={getIconStyle(section.id)}
                 />
               );
-            })}
-          </>
-        ) : (
-          <>
-            {[...Array(6)].map(() => (
-              <SectionCardPreloader />
-            ))}
-          </>
-        )}
+            })
+          : [...Array(6)].map((v, i) => <SectionCardPreloader key={i} />)}
         <div className="w-1/2 -mx-2 border-4 border-dashed border-gray-400 p-6 flex flex-col items-center justify-center">
           <Link to="/lessons">
             <div className="flex items-center pb-2">
@@ -116,7 +108,6 @@ const getIconStyle = (id: string): IconStyleType => {
         src: reactIcon,
         color: 'bg-lightBlue',
       };
-
     default:
       return {
         src: uploadIcon,

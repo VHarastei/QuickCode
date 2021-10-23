@@ -10,40 +10,26 @@ import { LessonKeyboard } from 'components/LessonKeyboard';
 import { useCounter } from 'hooks/useCounter';
 import { useKeyboardInput } from 'hooks/useKeyboardInput';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useCreateAttemptMutation, useGetLessonQuery } from 'services/lessonApi';
+import { ICreateAttempt } from 'store/types';
 import { Button } from '../components/Button';
 import { Paper } from '../components/Paper';
 
-type PropsType = {
-  name: string;
-  id: string;
-  section: string;
-  source: string;
-  sourceCode: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  accuracy: number;
-  lines: number;
-};
-const lesson: PropsType = {
-  name: 'Class Expressions',
-  id: '2',
-  section: 'typescript',
-  source: 'https://www.typescriptlang.org/',
-  sourceCode: 'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
-  difficulty: 'easy',
-  accuracy: 0,
-  lines: 256,
-};
 let example = `1\n2\n3\n4\n5\n6\n7\n8`;
 //let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
 
 export const Lesson: React.FC = () => {
+  const params: { lessonId: string } = useParams();
+  const { data: lesson } = useGetLessonQuery(params.lessonId);
+
   const invisibleInput = useRef<null | HTMLInputElement>(null);
   const lessonCode = useRef<null | HTMLPreElement>(null);
 
   const [isOpenModal, setIsOpenModal] = useState(true);
   const [indicators, setIndicators] = useState({ wpm: 0, accuracy: 100 });
-  const { currentChar, typed, isLessonEnded, handleInput } = useKeyboardInput(lessonCode);
+  const { currentChar, setCurrentChar, typed, isLessonEnded, handleInput } =
+    useKeyboardInput(lessonCode);
   const { counter } = useCounter(!isOpenModal && !isLessonEnded);
 
   const startLesson = () => {
@@ -59,6 +45,7 @@ export const Lesson: React.FC = () => {
     //restartCounter();
     window.location.reload();
   };
+
   useEffect(() => {
     // here i use custom wpm formula, because with original f. when you hit error wpm falls heavily
     const wpm = +(((typed.total - typed.wrong) / 5 / (counter.time + 0.1)) * 60).toFixed(0);
@@ -69,12 +56,39 @@ export const Lesson: React.FC = () => {
     });
   }, [typed, counter.time]);
 
+  useEffect(() => {
+    // when component is mounted, it doesn`t have lesson, here we sync and rerender
+    if (lesson) setCurrentChar(lessonCode.current?.children[0]);
+  }, [lesson, setCurrentChar]);
+
+  const [createAttempt, { isLoading: isUpdating }] = useCreateAttemptMutation();
+
+  useEffect(() => {
+    if (isLessonEnded && document.activeElement !== invisibleInput.current) {
+      if (lesson) {
+        const data: ICreateAttempt = {
+          lessonId: lesson.id,
+          accuracy: indicators.accuracy,
+          wpm: indicators.wpm,
+          time: counter.time,
+          errors: typed.wrong,
+        };
+        createAttempt(data);
+      }
+    }
+  }, [isLessonEnded]);
+
+  console.log(isUpdating);
   return (
     <div data-testid="lesson">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h3 className="text-3xl font-semibold mr-4">{lesson.name}</h3>
-          <DifficultyBadge difficulty={lesson.difficulty} size="large" />
+          {!!lesson && (
+            <>
+              <h3 className="text-3xl font-semibold mr-4">{lesson.name}</h3>
+              <DifficultyBadge difficulty={lesson.difficulty} size="large" />
+            </>
+          )}
         </div>
         <div className="flex items-center">
           <h4 className="text-2xl font-semibold mr-2 text-gray-500">Time:</h4>
@@ -98,20 +112,24 @@ export const Lesson: React.FC = () => {
             <Indicator name="Typed" measure="CHARS" value={typed.total} icon={keyboardIcon} />
             <Indicator name="Errors" measure="CHARS" value={typed.wrong} icon={errorIcon} />
           </div>
-          <div className="relative mt-2">
+          <div className="relative mt-2 ">
             <pre
               ref={lessonCode}
-              className="text-base text-gray-500 font-medium font-mono max-h-44 overflow-y-scroll"
+              className="text-base text-gray-500 font-medium font-mono h-44 max-h-44 overflow-y-scroll"
             >
-              {example.split('').map((char, i) => (
-                <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
-                  {char}
-                </span>
-              ))}
+              {lesson ? (
+                lesson.code.split('').map((char, i) => (
+                  <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
+                    {char}
+                  </span>
+                ))
+              ) : (
+                <div></div>
+              )}
             </pre>
             <div
               className={`transition-all absolute top-0 min-w-full min-h-full bg-white opacity-0 ${
-                isLessonEnded ? 'opacity-100' : ''
+                isLessonEnded ? 'visible opacity-100' : 'invisible'
               } flex items-center justify-center flex-col`}
             >
               <h3 className="text-4xl text-indigo-600 font-semibold">Congratulation!</h3>
@@ -149,8 +167,8 @@ export const Lesson: React.FC = () => {
             <img width={64} height={64} src={startIcon} alt="start icon" />
           </div>
           <h4 className="text-3xl font-semibold py-4">Please be prepared. Good luck!</h4>
-          <Button fullWidth onClick={startLesson}>
-            Start Typing Now
+          <Button fullWidth onClick={startLesson} disabled={!!!lesson}>
+            {!!lesson ? ' Start Typing Now' : 'Loading...'}
           </Button>
         </div>
       </CustomModal>

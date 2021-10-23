@@ -1,44 +1,34 @@
 import closeIcon from 'assets/close.svg';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ILesson } from 'store/types';
 import { Button } from './Button';
 import { CustomModal } from './CustomModal';
 import { DifficultyBadge } from './DifficultyBadge';
-import { Paper } from './Paper';
 import { PercentageBadge } from './PercentageBadge';
 
-type PropsType = {
-  name: string;
-  id: string;
-  section: string;
-  source: string;
-  sourceCode: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  accuracy: number;
-  lines: number;
-};
-
-export const LessonCard: React.FC<PropsType> = ({
+export const LessonCard: React.FC<ILesson & { sectionId: string }> = ({
   name,
   id,
-  section,
+  code,
   source,
   sourceCode,
   difficulty,
-  accuracy,
+  avgAccuracy,
   lines,
+  sectionId,
 }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   return (
-    <Paper>
+    <div className="p-4 rounded-md shadow-sm bg-white w-1/3 -mx-4">
       <div className="flex items-center justify-between pb-1">
         <h3 className="text-3xl font-semibold">{name}</h3>
         <DetailsBtn source={source} sourceCode={sourceCode} />
       </div>
       <div className="flex justify-between pb-1.5">
         <h5 className="text-1xl font-semibold text-gray-500">Accuracy</h5>
-        <PercentageBadge value={accuracy} />
+        <PercentageBadge value={avgAccuracy} />
       </div>
       <div className="flex justify-between pb-1.5">
         <h5 className="text-1xl font-semibold text-gray-500">Difficulty</h5>
@@ -49,7 +39,7 @@ export const LessonCard: React.FC<PropsType> = ({
         <span className="text-base font-semibold">{`${lines} lines`}</span>
       </div>
       <div className="flex gap-4 w-full">
-        <Link className="w-full" to={`/lessons/${section}/${id}`}>
+        <Link className="w-full" to={`/lessons/${sectionId}/${id}`}>
           <Button fullWidth>Start</Button>
         </Link>
         <div className="w-full group">
@@ -69,7 +59,8 @@ export const LessonCard: React.FC<PropsType> = ({
                 />
               </button>
             </div>
-            <pre className="my-4 max-h-96 overflow-y-scroll">{`class Greeter {
+            <pre className="my-4 max-h-96 overflow-y-scroll">{code}</pre>
+            {/* <pre className="my-4 max-h-96 overflow-y-scroll">{`class Greeter {
   public greet() {
     console.log("Hello, " + this.getName());
   }
@@ -87,23 +78,18 @@ class SpecialGreeter extends Greeter {
 
 const g = new SpecialGreeter();
 g.greet(); // OK
-g.getName();`}</pre>
-            <Link className="w-full" to={`/lessons/${section}/${id}`}>
+g.getName();`}</pre> */}
+            <Link className="w-full" to={`/lessons/${sectionId}/${id}`}>
               <Button fullWidth>Start</Button>
             </Link>
           </CustomModal>
         </div>
       </div>
-    </Paper>
+    </div>
   );
 };
 
-type DetailsBtnPropsType = {
-  source: string;
-  sourceCode: string;
-};
-
-const DetailsBtn: React.FC<DetailsBtnPropsType> = ({ source, sourceCode }) => {
+const DetailsBtn: React.FC<Pick<ILesson, 'source' | 'sourceCode'>> = ({ source, sourceCode }) => {
   return (
     <div className="relative group inline-block text-left pb-1">
       <button

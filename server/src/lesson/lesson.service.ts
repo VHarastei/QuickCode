@@ -26,8 +26,8 @@ export class LessonService {
   async findOne(id: string) {
     const data = await this.lessonRepository
       .createQueryBuilder('lesson')
-      .leftJoinAndSelect('lesson.section', 'section')
-      .leftJoinAndSelect('lesson.attempts', 'attempts')
+      //.leftJoinAndSelect('lesson.section', 'section')
+      //.leftJoinAndSelect('lesson.attempts', 'attempts')
       .where('lesson.id = :id', { id })
       .getOne();
 

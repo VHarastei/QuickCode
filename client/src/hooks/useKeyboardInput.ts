@@ -67,5 +67,5 @@ export const useKeyboardInput = (lessonCode: React.MutableRefObject<HTMLPreEleme
     }
   };
 
-  return { currentChar, handleInput, typed, isLessonEnded };
+  return { currentChar, setCurrentChar, handleInput, typed, isLessonEnded };
 };

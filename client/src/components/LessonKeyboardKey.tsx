@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React from 'react';
 
 type PropsType = {
   value: string | string[];
@@ -27,4 +26,3 @@ export const LessonKeyboardKey: React.FC<PropsType> = ({ value, customKeyClass, 
     </li>
   );
 };
-
