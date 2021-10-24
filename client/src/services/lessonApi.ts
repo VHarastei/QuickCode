@@ -3,7 +3,7 @@ import { IAttempt, ICreateAttempt, ILesson } from '../store/types';
 
 export const lessonApi = createApi({
   reducerPath: 'lessonApi',
-  //tagTypes: ['Lesson'],
+  tagTypes: ['Lesson'],
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
   endpoints: (builder) => ({
     getLesson: builder.query<ILesson, string>({
@@ -15,7 +15,7 @@ export const lessonApi = createApi({
         method: 'POST',
         body,
       }),
-      //invalidatesTags: ['Lesson'],
+      invalidatesTags: ['Lesson'],
     }),
   }),
 });

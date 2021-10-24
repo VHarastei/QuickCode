@@ -9,25 +9,31 @@ import { DifficultyBadge } from 'components/DifficultyBadge';
 import { LessonKeyboard } from 'components/LessonKeyboard';
 import { useCounter } from 'hooks/useCounter';
 import { useKeyboardInput } from 'hooks/useKeyboardInput';
+import { useSyncState } from 'hooks/useSyncState';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useCreateAttemptMutation, useGetLessonQuery } from 'services/lessonApi';
+import { sectionApi } from 'services/sectionApi';
+import { useAppDispatch } from 'store/hooks';
 import { ICreateAttempt } from 'store/types';
 import { Button } from '../components/Button';
 import { Paper } from '../components/Paper';
 
-let example = `1\n2\n3\n4\n5\n6\n7\n8`;
 //let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
+//let example = `class Greeter {\n\tpublic greet() {}\n}`;
 
 export const Lesson: React.FC = () => {
-  const params: { lessonId: string } = useParams();
+  const params: { lessonId: string; sectionId: string } = useParams();
   const { data: lesson } = useGetLessonQuery(params.lessonId);
+  const [createAttempt] = useCreateAttemptMutation();
+  const dispatch = useAppDispatch();
 
   const invisibleInput = useRef<null | HTMLInputElement>(null);
   const lessonCode = useRef<null | HTMLPreElement>(null);
 
   const [isOpenModal, setIsOpenModal] = useState(true);
-  const [indicators, setIndicators] = useState({ wpm: 0, accuracy: 100 });
+  const indicators = useSyncState({ wpm: 0, accuracy: 100 });
+
   const { currentChar, setCurrentChar, typed, isLessonEnded, handleInput } =
     useKeyboardInput(lessonCode);
   const { counter } = useCounter(!isOpenModal && !isLessonEnded);
@@ -50,10 +56,11 @@ export const Lesson: React.FC = () => {
     // here i use custom wpm formula, because with original f. when you hit error wpm falls heavily
     const wpm = +(((typed.total - typed.wrong) / 5 / (counter.time + 0.1)) * 60).toFixed(0);
     const accuracy = +(((typed.total - typed.wrong) / (typed.total + 0.00001)) * 100).toFixed(0);
-    setIndicators({
+    indicators.set({
       wpm: wpm > 0 ? wpm : 0,
       accuracy: accuracy === 0 ? 100 : accuracy,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typed, counter.time]);
 
   useEffect(() => {
@@ -61,24 +68,27 @@ export const Lesson: React.FC = () => {
     if (lesson) setCurrentChar(lessonCode.current?.children[0]);
   }, [lesson, setCurrentChar]);
 
-  const [createAttempt, { isLoading: isUpdating }] = useCreateAttemptMutation();
-
   useEffect(() => {
-    if (isLessonEnded && document.activeElement !== invisibleInput.current) {
-      if (lesson) {
-        const data: ICreateAttempt = {
-          lessonId: lesson.id,
-          accuracy: indicators.accuracy,
-          wpm: indicators.wpm,
-          time: counter.time,
-          errors: typed.wrong,
-        };
-        createAttempt(data);
-      }
+    if (isLessonEnded && lesson) {
+      const data: ICreateAttempt = {
+        lessonId: lesson.id,
+        accuracy: indicators.get().accuracy,
+        wpm: indicators.get().wpm,
+        time: counter.time,
+        errors: typed.wrong,
+      };
+      createAttempt(data).then(() => {
+        dispatch(
+          sectionApi.endpoints.getSectionById.initiate(params.sectionId, {
+            subscribe: false,
+            forceRefetch: true,
+          })
+        );
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLessonEnded]);
 
-  console.log(isUpdating);
   return (
     <div data-testid="lesson">
       <div className="flex items-center justify-between">
@@ -102,11 +112,11 @@ export const Lesson: React.FC = () => {
       <LessonKeyboard isLessonEnded={isLessonEnded}>
         <Paper className="my-4">
           <div className="flex gap-6">
-            <Indicator name="Speed" measure="WPM" value={indicators.wpm} icon={speedIcon} />
+            <Indicator name="Speed" measure="WPM" value={indicators.get().wpm} icon={speedIcon} />
             <Indicator
               name="Accuracy"
               measure="%"
-              value={indicators.accuracy}
+              value={indicators.get().accuracy}
               icon={accuracyIcon}
             />
             <Indicator name="Typed" measure="CHARS" value={typed.total} icon={keyboardIcon} />
@@ -137,10 +147,10 @@ export const Lesson: React.FC = () => {
                 You have passed the lesson, you can start the next lesson or try again
               </h4>
               <div className="flex gap-4 w-1/2 mt-4">
-                <Link className="w-full" to={`/lessons/typescript/random`}>
+                <Link className="w-full" to={`/lessons/${params.sectionId}/random`}>
                   <Button fullWidth>Next lesson</Button>
                 </Link>
-                <Link className="w-full" to={`/lessons/typescript`}>
+                <Link className="w-full" to={`/lessons/${params.sectionId}`}>
                   <Button fullWidth>See more lessons</Button>
                 </Link>
               </div>

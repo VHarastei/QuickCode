@@ -53,7 +53,7 @@ export class SectionService {
           attempts.forEach((item) => {
             avgAccuracy += item.accuracy / attempts.length;
           });
-          lesson.avgAccuracy = avgAccuracy;
+          lesson.avgAccuracy = +avgAccuracy.toFixed(2);
         },
       ),
     );

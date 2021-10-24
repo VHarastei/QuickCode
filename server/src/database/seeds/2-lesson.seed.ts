@@ -18,18 +18,18 @@ export default class CreateLessons implements Seeder {
         {
           id: 'class-expressions',
           name: 'Class Expressions',
-          code: 'biba and boba with booba',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
           difficulty: 'medium',
           lines: 24,
           source: 'https://www.typescriptlang.org/',
           sourceCode:
             'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
-          section: { id: 'typescript' },
+          section: { id: 'javascript' },
         },
         {
           id: 'sum-two',
           name: 'Sum Two',
-          code: 'biba and boba with booba',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
           difficulty: 'easy',
           lines: 12,
           source: 'https://www.typescriptlang.org/',
@@ -40,13 +40,57 @@ export default class CreateLessons implements Seeder {
         {
           id: 'redux-reducer',
           name: 'Redux Reducer',
-          code: 'biba and boba with booba',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
           difficulty: 'hard',
           lines: 75,
           source: 'https://www.typescriptlang.org/',
           sourceCode:
             'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
-          section: { id: 'react-ts' },
+          section: { id: 'javascript' },
+        },
+        {
+          id: 'add-digits',
+          name: 'Add Digits',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
+          difficulty: 'easy',
+          lines: 11,
+          source: 'https://www.typescriptlang.org/',
+          sourceCode:
+            'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
+          section: { id: 'javascript' },
+        },
+        {
+          id: 'integer-to-roman',
+          name: 'Integer To Roman',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
+          difficulty: 'hard',
+          lines: 54,
+          source: 'https://www.typescriptlang.org/',
+          sourceCode:
+            'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
+          section: { id: 'javascript' },
+        },
+        {
+          id: 'power-of-two',
+          name: 'Power of two',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
+          difficulty: 'medium',
+          lines: 27,
+          source: 'https://www.typescriptlang.org/',
+          sourceCode:
+            'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
+          section: { id: 'javascript' },
+        },
+        {
+          id: 'phone-number',
+          name: 'Phone Number',
+          code: 'class Greeter {\n\tpublic greet() {}\n}',
+          difficulty: 'hard',
+          lines: 142,
+          source: 'https://www.typescriptlang.org/',
+          sourceCode:
+            'https://www.typescriptlang.org/docs/handbook/2/classes.html#protected',
+          section: { id: 'javascript' },
         },
       ])
       .execute();
