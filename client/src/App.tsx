@@ -2,6 +2,7 @@ import { Layout } from 'components/Layout';
 import { Home } from 'pages/Home';
 import { Lesson } from 'pages/Lesson';
 import { Lessons } from 'pages/Lessons';
+import { Profile } from 'pages/Profile';
 import { Sections } from 'pages/Sections';
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -20,7 +21,7 @@ function App() {
           <Sections />
         </Route>
         <Route path="/profile">
-          <div>profile page</div>
+          <Profile />
         </Route>
         <Route path="/signin">
           <div>signin page</div>

@@ -178,7 +178,7 @@ export const Lesson: React.FC = () => {
           </div>
           <h4 className="text-3xl font-semibold py-4">Please be prepared. Good luck!</h4>
           <Button fullWidth onClick={startLesson} disabled={!!!lesson}>
-            {!!lesson ? ' Start Typing Now' : 'Loading...'}
+            {!!lesson ? 'Start Typing Now' : 'Loading...'}
           </Button>
         </div>
       </CustomModal>

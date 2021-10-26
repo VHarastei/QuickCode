@@ -1,35 +1,44 @@
-import { LessonCard } from 'components/LessonCard';
+import { LessonCard, LessonCardPreloader } from 'components/LessonCard';
+import { useDelayedQuery } from 'hooks/useDelayedQuery';
 import React from 'react';
 import { useParams } from 'react-router';
 import { useGetSectionByIdQuery } from 'services/sectionApi';
 
 export const Lessons = () => {
   const params: { sectionId: string } = useParams();
-  const { data: section } = useGetSectionByIdQuery(params.sectionId);
+  const section = useDelayedQuery(params.sectionId, useGetSectionByIdQuery);
 
-  console.log(section);
-  if (!section) return <div>loading</div>;
+  // const [delay, setDelay] = useState(false);
+  // const { data: section } = useGetSectionByIdQuery(params.sectionId, { skip: delay });
+
+  // useEffect(() => {
+  //   if (!!!section) {
+  //     setDelay(true); // because when we set skip: true, RTKQ doesn`t use cache
+  //   }
+  //   const handler = setTimeout(() => {
+  //     setDelay(false);
+  //   }, 400);
+
+  //   return () => clearTimeout(handler);
+  // }, [section]);
 
   return (
     <div className="my-4" data-testid="lessons">
-      <h1 className="text-center text-4xl font-bold text-indigo-600">{`${section.name} lessons`}</h1>
+      <h1
+        className={`text-center text-4xl font-bold text-indigo-600 ${
+          section ? 'visible' : 'invisible'
+        }`}
+      >{`${section ? section.name : 'Section'} lessons`}</h1>
       <h2 className="my-3 text-center text-3xl font-semibold text-gray-500">
         Choose and start your lesson
       </h2>
       <div className="my-8 w-full flex flex-wrap justify-center gap-y-4 gap-x-12 px-4">
-        {section.lessons.map((lesson) => (
-          <LessonCard {...lesson} key={lesson.id} sectionId={params.sectionId} />
-        ))}
+        {section
+          ? section.lessons.map((lesson, i) => (
+              <LessonCard {...lesson} key={lesson.id} sectionId={params.sectionId} />
+            ))
+          : [...Array(9)].map((v, i) => <LessonCardPreloader key={i} />)}
       </div>
     </div>
   );
 };
-
-//id={lesson.id}
-// name={lesson.name}
-// source={lesson.source}
-// sourceCode={lesson.sourceCode}
-// code={lesson.code}
-// avgAccuracy={lesson.avgAccuracy}
-// difficulty={lesson.difficulty}
-// lines={lesson.lines}

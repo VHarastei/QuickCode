@@ -5,7 +5,7 @@ export const sectionApi = createApi({
   reducerPath: 'sectionApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
   endpoints: (builder) => ({
-    getSections: builder.query<ISection[], any>({
+    getSections: builder.query<ISection[], null>({
       query: () => `sections`,
     }),
     getSectionById: builder.query<ISectionWithLesson, string>({

@@ -20,11 +20,11 @@ export const Button: React.FC<PropsType> = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium disabled:!bg-gray-500 ${
+      className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium ${
         variant === 'primary'
           ? 'text-white bg-indigo-600 hover:bg-indigo-700'
           : 'text-indigo-700 bg-indigo-100 hover:bg-indigo-200'
-      } ${fullWidth ? 'w-full' : ''}  ${className ? className : ''}`}
+      } ${fullWidth ? 'w-full' : ''}  ${className ? className : ''} disabled:bg-gray-500`}
     >
       {children}
     </button>

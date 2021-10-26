@@ -141,3 +141,40 @@ const DetailsBtn: React.FC<Pick<ILesson, 'source' | 'sourceCode'>> = ({ source, 
     </div>
   );
 };
+
+export const LessonCardPreloader = () => {
+  return (
+    <div className="p-4 rounded-md shadow-sm bg-white w-1/3 -mx-4">
+      <div className="flex items-center justify-between pb-1">
+        <h3 className="bg-gray-300 animate-pulse text-transparent rounded-lg text-3xl font-semibold">
+          Class Expressions
+        </h3>
+        <div className="bg-gray-300 animate-pulse text-transparent text-3xl rounded-lg">
+          details
+        </div>
+      </div>
+      <div className="flex justify-between pb-1.5">
+        <h5 className="bg-gray-300 animate-pulse text-transparent rounded-lg text-1xl font-semibold">
+          Accuracy
+        </h5>
+        <div className="bg-gray-300 animate-pulse text-transparent rounded-lg">badge</div>
+      </div>
+      <div className="flex justify-between pb-1.5">
+        <h5 className="bg-gray-300 animate-pulse text-transparent rounded-lg text-1xl font-semibold">
+          Difficulty
+        </h5>
+        <div className="bg-gray-300 animate-pulse text-transparent rounded-lg">badge</div>
+      </div>
+      <div className="flex justify-between pb-3">
+        <h5 className="bg-gray-300 animate-pulse text-transparent rounded-lg text-1xl font-semibold">
+          Size
+        </h5>
+        <span className="bg-gray-300 animate-pulse text-transparent rounded-lg text-base font-semibold">
+          20 lines
+        </span>
+      </div>
+
+      <div className="h-11 bg-gray-300 animate-pulse flex gap-4 w-full rounded-lg"></div>
+    </div>
+  );
+};
