@@ -1,34 +1,15 @@
-import { Attempt } from './attempt/entities/attempt.entity';
+import { LessonsModule } from './lessons/lessons.module';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { Section } from './section/entities/section.entity';
-import { Lesson } from './lesson/entities/lesson.entity';
-import { SectionModule } from './section/section.module';
-import { LessonModule } from './lesson/lesson.module';
-import { UserModule } from './user/user.module';
-import { AttemptModule } from './attempt/attempt.module';
-import { User } from './user/entities/user.entity';
+import { MongooseModule } from '@nestjs/mongoose';
+import { SectionsModule } from './sections/sections.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      database: 'quickcode',
-      entities: [Section, Lesson, Attempt, User],
-      synchronize: true,
-    }),
-    SectionModule,
-    LessonModule,
-    UserModule,
-    AttemptModule,
+    MongooseModule.forRoot(
+      'mongodb+srv://admin:admin@cluster0.tmc5w.mongodb.net/quickcode?retryWrites=true&w=majority',
+    ),
+    SectionsModule,
+    LessonsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
