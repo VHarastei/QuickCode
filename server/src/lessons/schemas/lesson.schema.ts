@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
 import { Section } from 'src/sections/schemas/section.schema';
 
 export type LessonDocument = Lesson & Document;
@@ -24,7 +25,7 @@ export class Lesson {
   @Prop({ required: true })
   sourceCode: string;
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Section' }] })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Section' })
   section: Section;
 }
 

@@ -16,8 +16,8 @@ export class SectionsController {
     return this.sectionService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.sectionService.findOne(id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.sectionService.findOne(id);
+  }
 }

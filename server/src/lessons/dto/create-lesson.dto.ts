@@ -5,4 +5,5 @@ export class CreateLessonDto {
   lines: number;
   source: string;
   sourceCode: string;
+  section: string;
 }

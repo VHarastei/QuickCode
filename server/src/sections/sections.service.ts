@@ -19,4 +19,12 @@ export class SectionsService {
   async findAll(): Promise<Section[]> {
     return this.sectionModel.find().exec();
   }
+
+  async findOne(id: string): Promise<any> {
+    const res = await this.sectionModel
+      .findById(id)
+      .populate('lessons', { section: false });
+
+    return res;
+  }
 }

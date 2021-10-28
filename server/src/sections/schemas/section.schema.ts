@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
 import { Lesson } from 'src/lessons/schemas/lesson.schema';
 
 export type SectionDocument = Section & Document;
@@ -12,7 +13,7 @@ export class Section {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Lesson' }] })
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }] })
   lessons: Lesson[];
 }
 
