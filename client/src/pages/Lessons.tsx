@@ -35,7 +35,7 @@ export const Lessons = () => {
       <div className="my-8 w-full flex flex-wrap justify-center gap-y-4 gap-x-12 px-4">
         {section
           ? section.lessons.map((lesson, i) => (
-              <LessonCard {...lesson} key={lesson.id} sectionId={params.sectionId} />
+              <LessonCard {...lesson} key={lesson._id} sectionId={params.sectionId} />
             ))
           : [...Array(9)].map((v, i) => <LessonCardPreloader key={i} />)}
       </div>

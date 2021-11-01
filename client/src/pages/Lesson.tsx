@@ -71,12 +71,13 @@ export const Lesson: React.FC = () => {
   useEffect(() => {
     if (isLessonEnded && lesson) {
       const data: ICreateAttempt = {
-        lessonId: lesson.id,
+        lesson: lesson._id,
         accuracy: indicators.get().accuracy,
         wpm: indicators.get().wpm,
         time: counter.time,
-        errors: typed.wrong,
+        numberOfErrors: typed.wrong,
       };
+
       createAttempt(data).then(() => {
         dispatch(
           sectionApi.endpoints.getSectionById.initiate(params.sectionId, {

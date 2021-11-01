@@ -1,6 +1,7 @@
 export interface ISection {
-  id: string;
+  _id: string;
   name: string;
+  route: string;
   description: string;
 }
 
@@ -9,7 +10,7 @@ export interface ISectionWithLesson extends ISection {
 }
 
 export interface ILesson {
-  id: string;
+  _id: string;
   name: string;
   code: string;
   difficulty: 'easy' | 'medium' | 'hard';
@@ -20,13 +21,21 @@ export interface ILesson {
 }
 
 export interface IAttempt {
-  id: string;
+  _id: string;
   accuracy: number;
   wpm: number;
   time: number;
-  errors: number;
+  numberOfErrors: number;
 }
 
-export interface ICreateAttempt extends Omit<IAttempt, 'id'> {
-  lessonId: string;
+export interface ICreateAttempt extends Omit<IAttempt, '_id'> {
+  lesson: string;
+}
+
+export interface IProfile {
+  totalTime: string;
+  totalLessons: number;
+  topSpeed: number;
+  averageSpeed: number;
+  typingChart: { lessonNumber: number; wpm: number }[];
 }

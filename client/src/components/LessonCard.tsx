@@ -9,7 +9,7 @@ import { PercentageBadge } from './PercentageBadge';
 
 export const LessonCard: React.FC<ILesson & { sectionId: string }> = ({
   name,
-  id,
+  _id,
   code,
   source,
   sourceCode,
@@ -39,7 +39,7 @@ export const LessonCard: React.FC<ILesson & { sectionId: string }> = ({
         <span className="text-base font-semibold">{`${lines} lines`}</span>
       </div>
       <div className="flex gap-4 w-full">
-        <Link className="w-full" to={`/lessons/${sectionId}/${id}`}>
+        <Link className="w-full" to={`/lessons/${sectionId}/${_id}`}>
           <Button fullWidth>Start</Button>
         </Link>
         <div className="w-full group">
@@ -79,7 +79,7 @@ class SpecialGreeter extends Greeter {
 const g = new SpecialGreeter();
 g.greet(); // OK
 g.getName();`}</pre> */}
-            <Link className="w-full" to={`/lessons/${sectionId}/${id}`}>
+            <Link className="w-full" to={`/lessons/${sectionId}/${_id}`}>
               <Button fullWidth>Start</Button>
             </Link>
           </CustomModal>

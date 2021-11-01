@@ -1,5 +1,4 @@
 import cssIcon from 'assets/css.svg';
-import htmlIcon from 'assets/html.svg';
 import jsIcon from 'assets/js.svg';
 import reactIcon from 'assets/react.svg';
 import tsIcon from 'assets/ts.svg';
@@ -12,7 +11,6 @@ import { useGetSectionsQuery } from 'services/sectionApi';
 
 export const Sections = () => {
   const sections = useDelayedQuery(null, useGetSectionsQuery);
-
   // const [delay, setDelay] = useState(false);
   // const { data: sections } = useGetSectionsQuery(null, { skip: delay });
 
@@ -39,14 +37,14 @@ export const Sections = () => {
         {sections
           ? sections.map((section) => (
               <SectionCard
-                key={section.id}
-                id={section.id}
+                key={section._id}
+                route={section.route}
                 name={section.name}
                 description={section.description}
-                iconStyle={getIconStyle(section.id)}
+                iconStyle={getIconStyle(section.name)}
               />
             ))
-          : [...Array(6)].map((v, i) => <SectionCardPreloader key={i} />)}
+          : [...Array(4)].map((v, i) => <SectionCardPreloader key={i} />)}
         <div className="w-1/2 -mx-2 border-4 border-dashed border-gray-400 p-6 flex flex-col items-center justify-center">
           <Link to="/lessons">
             <div className="flex items-center pb-2">
@@ -72,36 +70,36 @@ export type IconStyleType = {
 
 const getIconStyle = (id: string): IconStyleType => {
   switch (id) {
-    case 'javascript':
+    case 'JavaScript':
       return {
         src: jsIcon,
         color: 'bg-yellow-400',
       };
-    case 'typescript':
+    case 'TypeScript':
       return {
         src: tsIcon,
         color: 'bg-blue-600',
       };
-    case 'html':
-      return {
-        src: htmlIcon,
-        color: 'bg-red-500',
-      };
-    case 'css':
+    // case 'html':
+    //   return {
+    //     src: htmlIcon,
+    //     color: 'bg-red-500',
+    //   };
+    case 'CSS':
       return {
         src: cssIcon,
         color: 'bg-green-500',
       };
-    case 'react-js':
+    case 'React and Redux':
       return {
         src: reactIcon,
         color: 'bg-lightBlue',
       };
-    case 'react-ts':
-      return {
-        src: reactIcon,
-        color: 'bg-lightBlue',
-      };
+    // case 'react-ts':
+    //   return {
+    //     src: reactIcon,
+    //     color: 'bg-lightBlue',
+    //   };
     default:
       return {
         src: uploadIcon,

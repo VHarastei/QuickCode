@@ -12,9 +12,6 @@ module.exports = {
         lightBlue: {
           DEFAULT: '#61DAFB',
         },
-        keyBlack: {
-          DEFAULT: '#42403E',
-        },
       },
       fontSize: {
         '4.5xl': '2.5rem',
@@ -35,16 +32,6 @@ module.exports = {
       },
     },
   },
-  // variants: {
-  //   extend: {
-  //     backgroundColor: ['group-focus-within, disabled'],
-  //     opacity: ['group-focus-within'],
-  //     visibility: ['group-focus-within'],
-  //     display: ['group-focus-within'],
-  //     height: ['group-focus-within'],
-  //     //opacity: ['disabled'],
-  //   },
-  // },
   variants: {
     extend: {
       textColor: [
@@ -73,11 +60,6 @@ module.exports = {
         'group-visited',
         'group-disabled',
       ],
-      // padding: ['important'],
-      // margin: ['important'],
-      // fontSize: ['important'],
-      // fontWeight: ['important', 'hover'],
-      // borderCollapse: ['important'],
       borderColor: [
         'checked',
         //'important',
@@ -92,13 +74,9 @@ module.exports = {
         'group-visited',
         'group-disabled',
       ],
-      // borderOpacity: ['important'],
-      // borderRadius: ['important'],
-      // lineHeight: ['important'],
-      // borderStyle: ['important'],
+
       borderWidth: [
         'checked',
-        //'important',
         'disabled',
         'active',
         'hover',
@@ -115,7 +93,10 @@ module.exports = {
       outline: ['focus-visible'],
       cursor: ['disabled', 'group-disabled'],
       placeholderColor: ['disabled', 'group-disabled'],
-      //pointerEvents: ['important', 'group-disabled'],
+      opacity: ['group-focus-within'],
+      visibility: ['group-focus-within'],
+      display: ['group-focus-within'],
+      height: ['group-focus-within'],
     },
   },
   variantOrder: [

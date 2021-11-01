@@ -4,8 +4,14 @@ import lessonIcon from 'assets/lesson.svg';
 import topSpeedIcon from 'assets/topSpeed.svg';
 import avgSeedIcon from 'assets/avgSpeed.svg';
 import { Paper } from 'components/Paper';
+import { useGetUserProfileQuery } from 'services/userApi';
+import { title } from 'process';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 export const Profile = () => {
+  const { data: profile } = useGetUserProfileQuery(null);
+  if (!profile) return <div>loading...</div>;
+
   return (
     <div className="my-4" data-testid="sections">
       <h1 className="text-center text-4xl font-bold text-indigo-600">My Profile</h1>
@@ -15,11 +21,31 @@ export const Profile = () => {
       <div className="my-8">
         <h3 className="text-3xl font-semibold text-indigo-600">All Time Statistics:</h3>
         <div className="flex gap-4 my-4">
-          <StatItem title="Total Time" value="02:23:11" icon={uploadIcon} />
-          <StatItem title="Total Lessons" value="230" icon={lessonIcon} />
-          <StatItem title="Top Speed (wpm)" value="37.5" icon={topSpeedIcon} />
-          <StatItem title="Average Speed (wpm)" value="22.3" icon={avgSeedIcon} />
+          <StatItem title="Total Time" value={profile.totalTime} icon={uploadIcon} />
+          <StatItem title="Total Lessons" value={profile.totalLessons} icon={lessonIcon} />
+          <StatItem title="Top Speed (wpm)" value={profile.topSpeed} icon={topSpeedIcon} />
+          <StatItem title="Average Speed (wpm)" value={profile.averageSpeed} icon={avgSeedIcon} />
         </div>
+      </div>
+      <div>
+        <LineChart
+          width={1200}
+          height={400}
+          data={profile.typingChart}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="lessonNumber" />
+          <YAxis dataKey="wpm" />
+          <Tooltip />
+          {/* <Legend /> */}
+          <Line type="monotone" dataKey="wpm" stroke="#82ca9d" />
+        </LineChart>
       </div>
     </div>
   );
@@ -27,7 +53,7 @@ export const Profile = () => {
 
 type StatItemPropsType = {
   title: string;
-  value: string;
+  value: number | string;
   icon: string;
 };
 

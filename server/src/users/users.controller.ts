@@ -16,6 +16,11 @@ export class UsersController {
     return this.sectionService.findAll();
   }
 
+  @Get('/profile')
+  getProfile() {
+    return this.sectionService.getProfile();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sectionService.findOne(id);

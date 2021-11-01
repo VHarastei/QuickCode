@@ -19,7 +19,7 @@ export class AttemptsService {
   ) {}
 
   async create(createAttemptDto: CreateAttemptDto): Promise<Attempt> {
-    createAttemptDto.user = '617bc4dc0e1acfa4f3d25065';
+    createAttemptDto.user = '61803b0d94d1ea7b489a62e0';
     const createdAttempt = await this.attemptModel.create(createAttemptDto);
 
     await this.userModel.findByIdAndUpdate(

@@ -16,17 +16,21 @@ export class SectionsService {
   ) {}
 
   async create(createSectionDto: CreateSectionDto): Promise<Section> {
-    const createdSection = await this.sectionModel.create(createSectionDto);
-    return createdSection;
+    createSectionDto.route = createSectionDto.name
+      .toLowerCase()
+      .split(' ')
+      .join('-');
+
+    return this.sectionModel.create(createSectionDto);
   }
 
   async findAll(): Promise<Section[]> {
     return this.sectionModel.find().select('-lessons');
   }
 
-  async findOne(id: string): Promise<any> {
+  async findOne(route: string): Promise<any> {
     const section = await this.sectionModel
-      .findById(id)
+      .findOne({ route })
       .populate('lessons', { section: false, attempts: false });
 
     if (!section) {
