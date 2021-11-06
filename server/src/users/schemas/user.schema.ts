@@ -14,10 +14,10 @@ export class User {
   email: string;
 
   @Prop({ required: true })
-  firstName: string;
+  name: string;
 
   @Prop({ required: true })
-  lastName: string;
+  imageUrl: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Attempt' }] })
   attempts: Attempt[];

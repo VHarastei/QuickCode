@@ -5,9 +5,11 @@ import { SectionsModule } from './sections/sections.module';
 import { AttemptsModule } from './attempts/attempts.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
       'mongodb+srv://admin:admin@cluster0.tmc5w.mongodb.net/quickcode?retryWrites=true&w=majority',
     ),

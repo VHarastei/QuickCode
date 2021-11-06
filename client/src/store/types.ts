@@ -39,3 +39,10 @@ export interface IProfile {
   averageSpeed: number;
   typingChart: { lessonNumber: number; wpm: number }[];
 }
+
+export interface IUser {
+  googleId: string;
+  email: string;
+  name: string;
+  imageUrl: string;
+}

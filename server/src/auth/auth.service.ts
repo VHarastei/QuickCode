@@ -1,8 +1,14 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Request, Response } from 'express';
+import { OAuth2Client } from 'google-auth-library';
+import * as jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
+import { GoogleLoginDto } from './dto/google-login.dto';
+const client = new OAuth2Client(
+  '192216114574-6vvglitrjul91ksp3mn462c5ou95n0ft.apps.googleusercontent.com',
+);
 
 @Injectable()
 export class AuthService {
@@ -10,12 +16,48 @@ export class AuthService {
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
   ) {}
-  async register(dto: CreateUserDto) {
-    const emailInUse = await this.userModel.findOne({ email: dto.email });
-    if (emailInUse) return new ForbiddenException('Email already in use');
+  async getMe(request: Request) {
+    const { _id } = jwt.verify(request.cookies['token'], process.env.JWT_LOGIN);
+    return this.userModel.findOne({ _id }).select('-attempts');
+  }
 
-    const user = await this.userModel.create(dto);
+  async googleLogin(dto: GoogleLoginDto, response: Response) {
+    const OAuthResponse = await client.verifyIdToken({
+      idToken: dto.tokenId,
+      audience:
+        '192216114574-6vvglitrjul91ksp3mn462c5ou95n0ft.apps.googleusercontent.com',
+    });
+    const payloadUser = OAuthResponse.getPayload();
+    //console.log(payloadUser);
 
-    return user;
+    const user = await this.userModel
+      .findOne({ email: payloadUser.email })
+      .select('-attempts');
+
+    if (user) {
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_LOGIN, {
+        expiresIn: '7d',
+      });
+      console.log('login', token);
+      response.cookie('token', token);
+
+      //return { user, token };
+      return user;
+    } else {
+      const newUser = await this.userModel.create({
+        googleId: payloadUser.sub,
+        email: payloadUser.email,
+        name: payloadUser.name,
+        imageUrl: payloadUser.picture,
+      });
+
+      const token = jwt.sign({ _id: newUser._id }, process.env.JWT_LOGIN, {
+        expiresIn: '7d',
+      });
+      console.log('register', token);
+      response.cookie('token', token);
+      //return { user, token };
+      return user;
+    }
   }
 }
