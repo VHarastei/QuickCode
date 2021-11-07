@@ -1,14 +1,15 @@
+import { IUser } from './../types';
 import { RootState } from './../index';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface User {}
-
 export type UserSliceState = {
-  data: User | null;
+  data: IUser | null;
+  isLoading: boolean;
 };
 
 const initialState: UserSliceState = {
   data: null,
+  isLoading: true,
 };
 
 export const userSlice = createSlice({
@@ -18,12 +19,15 @@ export const userSlice = createSlice({
     setUserData: (state, action: PayloadAction<UserSliceState['data']>) => {
       state.data = action.payload;
     },
+    setUserIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setUserData } = userSlice.actions;
+export const { setUserData, setUserIsLoading } = userSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const selectUserData = (state: RootState) => state.user.data;
+export const selectUserIsLoading = (state: RootState) => state.user.isLoading;
 
 export default userSlice.reducer;

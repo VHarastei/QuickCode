@@ -4,19 +4,25 @@ import { IUser } from './../store/types';
 export const authApi = createApi({
   reducerPath: 'authApi',
   tagTypes: ['User'],
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/auth/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/auth/' }),
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     signIn: builder.mutation<IUser, { tokenId: string }>({
       query: (body) => ({
-        url: ``,
+        url: '',
         method: 'POST',
         body,
         credentials: 'include',
       }),
       invalidatesTags: ['User'],
     }),
+    getMe: builder.query<IUser, null>({
+      query: () => ({
+        url: '',
+        credentials: 'include',
+      }),
+    }),
   }),
 });
 
-export const { useSignInMutation } = authApi;
+export const { useSignInMutation, useGetMeQuery } = authApi;

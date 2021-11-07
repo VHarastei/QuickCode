@@ -1,3 +1,4 @@
+import { authApi } from './../services/authApi';
 import { sectionApi } from '../services/sectionApi';
 import { lessonApi } from '../services/lessonApi';
 import { configureStore } from '@reduxjs/toolkit';
@@ -9,6 +10,7 @@ export const store = configureStore({
     [sectionApi.reducerPath]: sectionApi.reducer,
     [lessonApi.reducerPath]: lessonApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
     user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -16,6 +18,7 @@ export const store = configureStore({
       sectionApi.middleware,
       lessonApi.middleware,
       userApi.middleware,
+      authApi.middleware,
     ]),
 });
 
