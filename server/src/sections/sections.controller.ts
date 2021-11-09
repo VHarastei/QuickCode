@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { SectionsService } from './sections.service';
 
@@ -17,7 +26,8 @@ export class SectionsController {
   }
 
   @Get(':route')
-  findOne(@Param('route') route: string) {
-    return this.sectionService.findOne(route);
+  @UseGuards(JwtAuthGuard)
+  findOne(@Param('route') route: string, @Req() req) {
+    return this.sectionService.findOne(route, req.user);
   }
 }

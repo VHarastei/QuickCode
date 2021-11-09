@@ -18,8 +18,11 @@ export class AttemptsService {
     private readonly lessonModel: Model<LessonDocument>,
   ) {}
 
-  async create(createAttemptDto: CreateAttemptDto): Promise<Attempt> {
-    createAttemptDto.user = '61803b0d94d1ea7b489a62e0';
+  async create(
+    createAttemptDto: CreateAttemptDto,
+    reqUser: User & { _id: any },
+  ): Promise<Attempt> {
+    createAttemptDto.user = reqUser._id;
     const createdAttempt = await this.attemptModel.create(createAttemptDto);
 
     await this.userModel.findByIdAndUpdate(

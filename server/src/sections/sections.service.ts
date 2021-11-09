@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Attempt, AttemptDocument } from 'src/attempts/schemas/attempt.schema';
 import { Lesson } from 'src/lessons/schemas/lesson.schema';
+import { User } from 'src/users/schemas/user.schema';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { Section, SectionDocument } from './schemas/section.schema';
 
@@ -28,7 +29,7 @@ export class SectionsService {
     return this.sectionModel.find().select('-lessons');
   }
 
-  async findOne(route: string): Promise<any> {
+  async findOne(route: string, reqUser: User & { _id: any }): Promise<any> {
     const section = await this.sectionModel
       .findOne({ route })
       .populate('lessons', { section: false, attempts: false });
@@ -47,6 +48,7 @@ export class SectionsService {
         ) => {
           const attempts = await this.attemptModel.find({
             lesson: lesson._id,
+            user: reqUser._id,
           });
 
           let avgAccuracy = 0;

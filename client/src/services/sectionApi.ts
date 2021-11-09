@@ -3,13 +3,13 @@ import { ISection, ISectionWithLesson } from '../store/types';
 
 export const sectionApi = createApi({
   reducerPath: 'sectionApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/sections' }),
   endpoints: (builder) => ({
     getSections: builder.query<ISection[], null>({
-      query: () => `sections`,
+      query: () => ``,
     }),
     getSectionById: builder.query<ISectionWithLesson, string>({
-      query: (id) => `sections/${id}`,
+      query: (id) => `/${id}`,
     }),
   }),
 });

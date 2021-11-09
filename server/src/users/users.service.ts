@@ -24,9 +24,10 @@ export class UsersService {
     return this.userModel.findById(id).populate('attempts').exec();
   }
 
-  async getProfile(): Promise<any> {
-    const userId = '61803b0d94d1ea7b489a62e0';
-    const user = await this.userModel.findById(userId).populate('attempts');
+  async getProfile(reqUser: User & { _id: string }): Promise<any> {
+    const user = await this.userModel
+      .findById(reqUser._id)
+      .populate('attempts');
 
     let totalTime = 0;
     const profile = {

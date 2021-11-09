@@ -1,4 +1,5 @@
 import { Layout } from 'components/Layout';
+import { PrivateRoute } from 'components/PrivateRoute';
 import { Account } from 'pages/Account';
 import { Home } from 'pages/Home';
 import { Lesson } from 'pages/Lesson';
@@ -26,18 +27,18 @@ function App() {
   return (
     <Layout>
       <Switch>
-        <Route path="/lessons/:sectionId/:lessonId">
+        <PrivateRoute path="/lessons/:sectionId/:lessonId">
           <Lesson />
-        </Route>
-        <Route path="/lessons/:sectionId">
+        </PrivateRoute>
+        <PrivateRoute path="/lessons/:sectionId">
           <Lessons />
-        </Route>
+        </PrivateRoute>
         <Route path="/lessons">
           <Sections />
         </Route>
-        <Route path="/profile">
+        <PrivateRoute path="/profile">
           <Profile />
-        </Route>
+        </PrivateRoute>
         <Route path="/account">
           <Account />
         </Route>

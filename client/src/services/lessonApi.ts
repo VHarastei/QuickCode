@@ -4,7 +4,7 @@ import { IAttempt, ICreateAttempt, ILesson } from '../store/types';
 export const lessonApi = createApi({
   reducerPath: 'lessonApi',
   tagTypes: ['Lesson'],
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
   endpoints: (builder) => ({
     getLesson: builder.query<ILesson, string>({
       query: (id) => `lessons/${id}`,

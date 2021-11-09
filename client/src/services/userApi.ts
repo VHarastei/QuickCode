@@ -3,7 +3,7 @@ import { IProfile } from '../store/types';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/users/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/users/' }),
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getUserProfile: builder.query<IProfile, null>({
