@@ -16,10 +16,12 @@ import { useCreateAttemptMutation, useGetLessonQuery } from 'services/lessonApi'
 import { sectionApi } from 'services/sectionApi';
 import { useAppDispatch } from 'store/hooks';
 import { ICreateAttempt } from 'store/types';
+import { escapeSpecialChars } from 'utils/escapeSpecialChars';
 import { Button } from '../components/Button';
 import { Paper } from '../components/Paper';
 
-//let example = `class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();`;
+//let example =
+//  'class Greeter {\n\tpublic greet() {\n\t\tconsole.log("Hello, " + this.getName());\n\t}\n\tprotected getName() {\n\t\treturn "hi";\n\t}\n}\nclass SpecialGreeter extends Greeter {\n\tpublic howdy() {\n\t\t// OK to access protected member here\n\t\tconsole.log("Howdy, " + this.getName());\n\t}\n}\n\nconst g = new SpecialGreeter();\ng.greet(); // OK\ng.getName();';
 //let example = `class Greeter {\n\tpublic greet() {}\n}`;
 
 export const Lesson: React.FC = () => {
@@ -91,7 +93,7 @@ export const Lesson: React.FC = () => {
   }, [isLessonEnded]);
 
   return (
-    <div data-testid="lesson">
+    <div data-testid="lesson" className="my-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           {!!lesson && (
@@ -128,15 +130,14 @@ export const Lesson: React.FC = () => {
               ref={lessonCode}
               className="text-base text-gray-500 font-medium font-mono h-44 max-h-44 overflow-y-scroll"
             >
-              {lesson ? (
-                lesson.code.split('').map((char, i) => (
-                  <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
-                    {char}
-                  </span>
-                ))
-              ) : (
-                <div></div>
-              )}
+              {lesson &&
+                escapeSpecialChars(lesson.code)
+                  .split('')
+                  .map((char, i) => (
+                    <span className={char === '\n' ? 'before:enter text-white px-1' : ''} key={i}>
+                      {char}
+                    </span>
+                  ))}
             </pre>
             <div
               className={`transition-all absolute top-0 min-w-full min-h-full bg-white opacity-0 ${

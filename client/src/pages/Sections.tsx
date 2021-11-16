@@ -11,19 +11,6 @@ import { useGetSectionsQuery } from 'services/sectionApi';
 
 export const Sections = () => {
   const sections = useDelayedQuery(null, useGetSectionsQuery);
-  // const [delay, setDelay] = useState(false);
-  // const { data: sections } = useGetSectionsQuery(null, { skip: delay });
-
-  // useEffect(() => {
-  //   if (!!!sections) {
-  //     setDelay(true); // because when we set skip: true, RTKQ doesn`t use cache
-  //   }
-  //   const handler = setTimeout(() => {
-  //     setDelay(false);
-  //   }, 400);
-
-  //   return () => clearTimeout(handler);
-  // }, [sections]);
 
   return (
     <div className="my-4" data-testid="sections">

@@ -4,7 +4,7 @@ import { IUser } from './../store/types';
 export const authApi = createApi({
   reducerPath: 'authApi',
   tagTypes: ['User'],
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/auth/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/auth' }),
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     signIn: builder.mutation<IUser, { tokenId: string }>({

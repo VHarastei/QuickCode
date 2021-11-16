@@ -60,7 +60,8 @@ export const LessonCard: React.FC<ILesson & { sectionId: string }> = ({
               </button>
             </div>
             <pre className="my-4 max-h-96 overflow-y-scroll">{code}</pre>
-            {/* <pre className="my-4 max-h-96 overflow-y-scroll">{`class Greeter {
+            {/* <pre className="my-4 max-h-96 overflow-y-scroll">{`
+class Greeter {
   public greet() {
     console.log("Hello, " + this.getName());
   }

@@ -8,20 +8,6 @@ export const Lessons = () => {
   const params: { sectionId: string } = useParams();
   const section = useDelayedQuery(params.sectionId, useGetSectionByIdQuery);
 
-  // const [delay, setDelay] = useState(false);
-  // const { data: section } = useGetSectionByIdQuery(params.sectionId, { skip: delay });
-
-  // useEffect(() => {
-  //   if (!!!section) {
-  //     setDelay(true); // because when we set skip: true, RTKQ doesn`t use cache
-  //   }
-  //   const handler = setTimeout(() => {
-  //     setDelay(false);
-  //   }, 400);
-
-  //   return () => clearTimeout(handler);
-  // }, [section]);
-
   return (
     <div className="my-4" data-testid="lessons">
       <h1
