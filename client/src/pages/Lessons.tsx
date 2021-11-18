@@ -7,7 +7,7 @@ import { useGetSectionByIdQuery } from 'services/sectionApi';
 export const Lessons = () => {
   const params: { sectionId: string } = useParams();
   const section = useDelayedQuery(params.sectionId, useGetSectionByIdQuery);
-
+  console.log(params.sectionId, section);
   return (
     <div className="my-4" data-testid="lessons">
       <h1

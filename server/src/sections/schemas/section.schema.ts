@@ -13,6 +13,9 @@ export class Section {
   @Prop({ required: true })
   description: string;
 
+  @Prop({ required: true })
+  route: string;
+
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }] })
   lessons: Lesson[];
 }

@@ -2,12 +2,13 @@ import googleIcon from 'assets/google.svg';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectUserData, selectUserIsLoading } from 'store/slices/userSlice';
+import { selectUserData, selectUserLoadingState } from 'store/slices/userSlice';
+import { LoadingState } from 'store/types';
 import { Button } from './Button';
 
 export const Header = () => {
   const user = useSelector(selectUserData);
-  const userIsLoading = useSelector(selectUserIsLoading);
+  const userLoadingState = useSelector(selectUserLoadingState);
 
   return (
     <header className="fixed w-full z-10 top-0 py-3 bg-white shadow-sm">
@@ -20,7 +21,9 @@ export const Header = () => {
               </div>
             </Link>
           </div>
-          {!userIsLoading ? (
+          {userLoadingState === LoadingState.LOADED ||
+          userLoadingState === LoadingState.ERROR ||
+          userLoadingState === LoadingState.CLEARED ? (
             <div className="flex flex-row items-center text-lg font-medium text-gray-500">
               <Link to="/lessons">
                 <div className="mr-4 hover:text-gray-900">LESSONS</div>

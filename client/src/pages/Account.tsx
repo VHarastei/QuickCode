@@ -5,27 +5,27 @@ import GoogleLogin, { GoogleLogout } from 'react-google-login';
 import signoutIcon from 'assets/signout.svg';
 import { useAppDispatch } from 'store/hooks';
 import { useSignInMutation } from 'services/authApi';
-import { selectUserData, selectUserIsLoading, setUserData } from 'store/slices/userSlice';
+import { selectUserData, setUserData, setUserLoadingState } from 'store/slices/userSlice';
 import { useSelector } from 'react-redux';
 import { hasOwnProperty } from 'utils/hasOwnProperty';
 import Cookies from 'js-cookie';
+import { LoadingState } from 'store/types';
 
 export const Account = () => {
   const [signIn] = useSignInMutation();
   const dispatch = useAppDispatch();
   const user = useSelector(selectUserData);
-  const userIsLoading = useSelector(selectUserIsLoading);
 
   const responseSuccessGoogle = async (response: any) => {
     try {
       const result = await signIn({ tokenId: response.tokenId });
-      console.log('signIn', result);
       if (hasOwnProperty(result, 'data')) {
         dispatch(setUserData(result.data));
-        // push('/');
+        dispatch(setUserLoadingState(LoadingState.LOADED));
       }
     } catch (err) {
       console.log(err);
+      dispatch(setUserLoadingState(LoadingState.ERROR));
     }
   };
   const responseErrorGoogle = (response: any) => {};
@@ -33,9 +33,8 @@ export const Account = () => {
   const handleLogoutSuccess = () => {
     Cookies.remove('token');
     dispatch(setUserData(null));
+    dispatch(setUserLoadingState(LoadingState.CLEARED));
   };
-
-  if (userIsLoading) return null;
 
   return (
     <div data-testid="home">

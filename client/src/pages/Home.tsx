@@ -4,6 +4,7 @@ import { HomeDescription } from 'components/HomeDescription';
 import codeIcon from 'assets/code.svg';
 import chartIcon from 'assets/chart.svg';
 import { Button } from 'components/Button';
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
   return (
@@ -26,7 +27,9 @@ export const Home = () => {
       </div>
       <div className="mt-6 flex flex-col items-center">
         <h3 className="text-3xl font-bold text-indigo-600 text-center">It's free, just sign in.</h3>
-        <Button className="px-6 my-3 text-xl">Sign in with Google</Button>
+        <Link to="/account">
+          <Button className="px-6 my-3 text-xl">Sign in with Google</Button>
+        </Link>
       </div>
     </div>
   );

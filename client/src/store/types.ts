@@ -46,3 +46,11 @@ export interface IUser {
   name: string;
   imageUrl: string;
 }
+
+export enum LoadingState {
+  LOADED = 'LOADED',
+  LOADING = 'LOADING',
+  ERROR = 'ERROR',
+  NEVER = 'NEVER',
+  CLEARED = 'CLEARED',
+}

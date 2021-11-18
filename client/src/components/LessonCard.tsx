@@ -2,6 +2,7 @@ import closeIcon from 'assets/close.svg';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ILesson } from 'store/types';
+import { escapeSpecialChars } from 'utils/escapeSpecialChars';
 import { Button } from './Button';
 import { CustomModal } from './CustomModal';
 import { DifficultyBadge } from './DifficultyBadge';
@@ -59,7 +60,7 @@ export const LessonCard: React.FC<ILesson & { sectionId: string }> = ({
                 />
               </button>
             </div>
-            <pre className="my-4 max-h-96 overflow-y-scroll">{code}</pre>
+            <pre className="my-4 max-h-96 overflow-y-scroll">{escapeSpecialChars(code)}</pre>
             {/* <pre className="my-4 max-h-96 overflow-y-scroll">{`
 class Greeter {
   public greet() {
