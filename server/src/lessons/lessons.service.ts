@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Section, SectionDocument } from 'src/sections/schemas/section.schema';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { Lesson, LessonDocument } from './schemas/lesson.schema';
+import { lessonsSeed } from './schemas/lesson.seed';
 
 @Injectable()
 export class LessonsService {
@@ -14,18 +15,27 @@ export class LessonsService {
     private readonly sectionModel: Model<SectionDocument>,
   ) {}
 
-  async create(createLessonDto: CreateLessonDto): Promise<Lesson> {
-    const createdLesson = await this.lessonModel.create(createLessonDto);
-    // section.lessons = section.lessons.concat(createdLesson._id);
-    // await section.save();
+  async create(createLessonDto: CreateLessonDto): Promise<any> {
+    // const createdLesson = await this.lessonModel.create(createLessonDto);
+    // await this.sectionModel.findByIdAndUpdate(
+    //   createLessonDto.section,
+    //   { $push: { lessons: createdLesson._id } },
+    //   { new: true, useFindAndModify: false },
+    // );
 
-    await this.sectionModel.findByIdAndUpdate(
-      createLessonDto.section,
-      { $push: { lessons: createdLesson._id } },
-      { new: true, useFindAndModify: false },
+    // return createdLesson;
+
+    return Promise.all(
+      lessonsSeed.map(async (lesson) => {
+        const createdLesson = await this.lessonModel.create(lesson);
+
+        await this.sectionModel.findByIdAndUpdate(
+          lesson.section,
+          { $push: { lessons: createdLesson._id } },
+          { new: true, useFindAndModify: false },
+        );
+      }),
     );
-
-    return createdLesson;
   }
 
   async findAll(): Promise<Lesson[]> {

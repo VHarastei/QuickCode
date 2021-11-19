@@ -6,6 +6,7 @@ import { Lesson } from 'src/lessons/schemas/lesson.schema';
 import { User } from 'src/users/schemas/user.schema';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { Section, SectionDocument } from './schemas/section.schema';
+import { sectionsSeed } from './schemas/section.seed';
 
 @Injectable()
 export class SectionsService {
@@ -16,13 +17,18 @@ export class SectionsService {
     private readonly attemptModel: Model<AttemptDocument>,
   ) {}
 
-  async create(createSectionDto: CreateSectionDto): Promise<Section> {
-    createSectionDto.route = createSectionDto.name
-      .toLowerCase()
-      .split(' ')
-      .join('-');
+  async create(createSectionDto: CreateSectionDto): Promise<any> {
+    createSectionDto.route = createSectionDto.name;
+    //   .toLowerCase()
+    //   .split(' ')
+    //   .join('-');
+    //return this.sectionModel.create(createSectionDto);
 
-    return this.sectionModel.create(createSectionDto);
+    return Promise.all(
+      sectionsSeed.map(async (section) => {
+        await this.sectionModel.create(section);
+      }),
+    );
   }
 
   async findAll(): Promise<Section[]> {

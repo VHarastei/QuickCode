@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { removeSpaces } from 'utils/removeSpaces';
 
 export const Text = () => {
   const [value, setValue] = useState('');
@@ -9,22 +10,13 @@ export const Text = () => {
 
   const handleTab = (e: any) => {
     if (e.key === 'Tab') {
-      //console.log(e);
-      //setValue(value + '\t');
       e.preventDefault();
     }
   };
 
   const save = () => {
-    const str = JSON.stringify(value);
-    let res = '';
-    for (let i = 0; i < str.length; i++) {
-      let tab = 0;
-      if (str[i - 1] === '\n' || str[i - 1] === ' ') {
-        tab++;
-      }
-    }
-    console.log(str);
+    console.log(removeSpaces(value));
+    console.log(JSON.stringify(value).split('\\n').length);
   };
 
   return (
@@ -34,7 +26,7 @@ export const Text = () => {
         onKeyDown={handleTab}
         onChange={handleChange}
         value={value}
-        cols={60}
+        cols={100}
         rows={10}
       ></textarea>
       <button onClick={save}>COnsole</button>
