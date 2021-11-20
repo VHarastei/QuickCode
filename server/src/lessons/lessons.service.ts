@@ -45,4 +45,20 @@ export class LessonsService {
   async findOne(id: string): Promise<Lesson> {
     return this.lessonModel.findById(id).populate('section').exec();
   }
+
+  async findRandom(sectionId: string): Promise<any> {
+    const section = await this.sectionModel
+      .findById(sectionId)
+      .populate('lessons');
+
+    const count = section.lessons.length;
+    if (count) {
+      const lesson = section.lessons[Math.floor(Math.random() * count)];
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      return { lessonId: lesson._id };
+    } else {
+      return { lessonId: null };
+    }
+  }
 }

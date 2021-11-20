@@ -25,6 +25,7 @@ export const Sections = () => {
           ? sections.map((section) => (
               <SectionCard
                 key={section._id}
+                _id={section._id}
                 route={section.route}
                 name={section.name}
                 description={section.description}

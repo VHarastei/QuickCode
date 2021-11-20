@@ -9,6 +9,9 @@ export const lessonApi = createApi({
     getLesson: builder.query<ILesson, string>({
       query: (id) => `lessons/${id}`,
     }),
+    getRandomLessonId: builder.query<{ lessonId: string | null }, string>({
+      query: (sectionId) => `lessons/random/${sectionId}`,
+    }),
     createAttempt: builder.mutation<IAttempt, ICreateAttempt>({
       query: (body) => ({
         url: `/attempts`,
@@ -20,4 +23,4 @@ export const lessonApi = createApi({
   }),
 });
 
-export const { useGetLessonQuery, useCreateAttemptMutation } = lessonApi;
+export const { useGetLessonQuery, useGetRandomLessonIdQuery, useCreateAttemptMutation } = lessonApi;

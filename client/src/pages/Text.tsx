@@ -29,7 +29,7 @@ export const Text = () => {
         cols={100}
         rows={10}
       ></textarea>
-      <button onClick={save}>COnsole</button>
+      <button onClick={save}>Console</button>
     </div>
   );
 };

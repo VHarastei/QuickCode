@@ -9,8 +9,8 @@ import { DifficultyBadge } from './DifficultyBadge';
 import { PercentageBadge } from './PercentageBadge';
 
 export const LessonCard: React.FC<ILesson & { sectionId: string }> = ({
-  name,
   _id,
+  name,
   code,
   source,
   sourceCode,
@@ -69,18 +69,7 @@ class Greeter {
   protected getName() {
     return "hi";
   }
-}
- 
-class SpecialGreeter extends Greeter {
-  public howdy() {
-    // OK to access protected member here
-    console.log("Howdy, " + this.getName());
-  }
-}
-
-const g = new SpecialGreeter();
-g.greet(); // OK
-g.getName();`}</pre> */}
+}*/}
             <Link className="w-full" to={`/lessons/${sectionId}/${_id}`}>
               <Button fullWidth>Start</Button>
             </Link>
@@ -132,12 +121,12 @@ const DetailsBtn: React.FC<Pick<ILesson, 'source' | 'sourceCode'>> = ({ source, 
           >
             Source code
           </a>
-          <button
+          {/* <button
             disabled
             className="w-full text-left text-gray-600 block px-4 py-2 text-sm hover:bg-gray-50"
           >
             Edit
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
