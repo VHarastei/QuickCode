@@ -33,6 +33,7 @@
     "@nestjs/mongoose": "^9.0.1",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/serve-static": "^2.2.2",
     "cookie-parser": "^1.4.5",
     "google-auth-library": "^7.10.2",
     "mongoose": "^6.0.12",

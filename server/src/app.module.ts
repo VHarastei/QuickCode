@@ -6,16 +6,21 @@ import { AttemptsModule } from './attempts/attempts.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGOOSE_URI),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
     SectionsModule,
     LessonsModule,
     AttemptsModule,
     UsersModule,
     AuthModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'build'),
+    }),
   ],
 })
 export class AppModule {}
